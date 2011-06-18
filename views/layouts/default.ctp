@@ -44,9 +44,9 @@
 					if ($user['User']['privileged']) {
 						echo ' is an admin';
 					}
+					echo $this->Html->link('Logout', array('controller' => 'users', 'action' => 'logout', 'admin' => FALSE));
 				}
 
-				echo $this->Html->link('Logout', array('controller' => 'users', 'action' => 'logout', 'admin' => FALSE));
 			?>
 		</div>
 		<div id="content">

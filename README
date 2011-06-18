@@ -1,2 +1,6 @@
 Fable is free and open source Substitute Placement and Absence Management
 software. It is built on CakePHP 1.3.
+
+To set up your own development Fable server, set up a typical CakePHP
+environment. Import schema.sql to your database and set up a user account
+(modify my database.php if needed).

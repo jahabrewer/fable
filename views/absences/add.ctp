@@ -4,12 +4,10 @@
 		<legend><?php __('Add Absence'); ?></legend>
 	<?php
 		$user = $this->Session->read('User');
-		//echo $this->Form->input('absentee_id');
 		echo $this->Form->input('absentee_id', array(
 			'value' => $user['User']['id'],
 			'type' => 'hidden'
 		));
-		//echo $this->Form->input('fulfiller_id');
 		echo $this->Form->input('school_id');
 		echo $this->Form->input('room');
 		echo $this->Form->input('start');

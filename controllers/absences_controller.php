@@ -26,6 +26,8 @@ class AbsencesController extends AppController {
 				$this->Session->setFlash(__('The absence could not be saved. Please, try again.', true));
 			}
 		}
+
+		// set default school to user's school
 		$user = $this->Session->read('User');
 		$this->data['Absence']['school_id'] = $user['User']['school_id'];
 
