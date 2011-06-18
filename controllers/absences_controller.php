@@ -42,6 +42,15 @@ class AbsencesController extends AppController {
 			$this->Session->setFlash(__('Invalid absence', true));
 			$this->redirect(array('action' => 'index'));
 		}
+
+		// check for ownership
+		$user = $this->Session->read('User');
+		$absence = $this->Absence->read(null, $id);
+		if ($absence['Absence']['absentee_id'] != $user['User']['id']) {
+			$this->Session->setFlash('You do not have permission to edit that absence');
+			$this->redirect(array('action' => 'index'));
+		}
+
 		if (!empty($this->data)) {
 			if ($this->Absence->save($this->data)) {
 				$this->Session->setFlash(__('The absence has been saved', true));
@@ -64,6 +73,14 @@ class AbsencesController extends AppController {
 			$this->Session->setFlash(__('Invalid id for absence', true));
 			$this->redirect(array('action'=>'index'));
 		}
+		// check for ownership
+		$user = $this->Session->read('User');
+		$absence = $this->Absence->read('absentee_id', $id);
+		if ($absence['Absence']['absentee_id'] != $user['User']['id']) {
+			$this->Session->setFlash('You do not have permission to delete that absence');
+			$this->redirect(array('action'=>'index'));
+		}
+
 		if ($this->Absence->delete($id)) {
 			$this->Session->setFlash(__('Absence deleted', true));
 			$this->redirect(array('action'=>'index'));

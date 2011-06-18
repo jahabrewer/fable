@@ -38,7 +38,7 @@ class UsersController extends AppController {
 				// save User to Session and redirect
 				$this->Session->write('User', $this->User->_user);
 				$this->Session->setFlash('You have successfully logged in.','default',array('class'=>'flash_good'));
-				$this->redirect(array('action'=>'index','admin'=>TRUE));
+				$this->redirect(array('controller' => 'absences', 'action'=>'index','admin'=>FALSE));
 			}
 		}
 	}
