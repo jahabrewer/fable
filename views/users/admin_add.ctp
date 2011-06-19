@@ -3,6 +3,9 @@
 	<fieldset>
  		<legend><?php echo $legend; ?></legend>
 		<?php
+		if(isset($edit)) {
+			echo $this->Form->input('id');
+		}
 		echo $this->Form->input('username');
 		echo $this->Form->input('password');
 		echo $this->Form->input('user_type_id');
