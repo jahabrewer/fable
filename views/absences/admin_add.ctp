@@ -7,8 +7,8 @@
 		echo $this->Form->input('fulfiller_id');
 		echo $this->Form->input('school_id');
 		echo $this->Form->input('room');
-		echo $this->Form->input('start');
-		echo $this->Form->input('end');
+		echo $this->Form->input('start', array('interval' => 15));
+		echo $this->Form->input('end', array('interval' => 15));
 		echo $this->Form->input('comment');
 	?>
 	</fieldset>
