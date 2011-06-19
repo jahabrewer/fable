@@ -37,9 +37,9 @@
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php __('Id'); ?></th>
-		<th><?php __('Absentee Id'); ?></th>
-		<th><?php __('Fulfiller Id'); ?></th>
-		<th><?php __('School Id'); ?></th>
+		<th><?php __('Absentee'); ?></th>
+		<th><?php __('Fulfiller'); ?></th>
+		<th><?php __('School'); ?></th>
 		<th><?php __('Room'); ?></th>
 		<th><?php __('Start'); ?></th>
 		<th><?php __('End'); ?></th>
@@ -58,9 +58,9 @@
 		?>
 		<tr<?php echo $class;?>>
 			<td><?php echo $absence['id'];?></td>
-			<td><?php echo $absence['absentee_id'];?></td>
-			<td><?php echo $absence['fulfiller_id'];?></td>
-			<td><?php echo $absence['school_id'];?></td>
+			<td><?php echo $this->Html->link($absence['Absentee']['username'], array('controller' => 'users', 'action' => 'view', $absence['Absentee']['id'])); ?>
+			<td><?php echo $this->Html->link($absence['Fulfiller']['username'], array('controller' => 'users', 'action' => 'view', $absence['Fulfiller']['id'])); ?>
+			<td><?php echo $absence['School']['name'];?></td>
 			<td><?php echo $absence['room'];?></td>
 			<td><?php echo $absence['start'];?></td>
 			<td><?php echo $absence['end'];?></td>
@@ -90,14 +90,10 @@
 	<tr>
 		<th><?php __('Id'); ?></th>
 		<th><?php __('Username'); ?></th>
-		<th><?php __('Password'); ?></th>
 		<th><?php __('First Name'); ?></th>
 		<th><?php __('Middle Initial'); ?></th>
 		<th><?php __('Last Name'); ?></th>
-		<th><?php __('Last Login'); ?></th>
-		<th><?php __('School Id'); ?></th>
-		<th><?php __('Created'); ?></th>
-		<th><?php __('Modified'); ?></th>
+		<th><?php __('School'); ?></th>
 		<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -110,15 +106,11 @@
 		?>
 		<tr<?php echo $class;?>>
 			<td><?php echo $user['id'];?></td>
-			<td><?php echo $user['username'];?></td>
-			<td><?php echo $user['password'];?></td>
+			<td><?php echo $this->Html->link($user['username'], array('controller' => 'users', 'action' => 'view', $user['id'])); ?>
 			<td><?php echo $user['first_name'];?></td>
 			<td><?php echo $user['middle_initial'];?></td>
 			<td><?php echo $user['last_name'];?></td>
-			<td><?php echo $user['last_login'];?></td>
-			<td><?php echo $user['school_id'];?></td>
-			<td><?php echo $user['created'];?></td>
-			<td><?php echo $user['modified'];?></td>
+			<td><?php echo $user['School']['name'];?></td>
 			<td class="actions">
 				<?php echo $this->Html->link(__('View', true), array('controller' => 'users', 'action' => 'view', $user['id'])); ?>
 				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'users', 'action' => 'edit', $user['id'])); ?>

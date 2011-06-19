@@ -37,8 +37,15 @@ class UsersController extends AppController {
 				
 				// save User to Session and redirect
 				$this->Session->write('User', $this->User->_user);
-				$this->Session->setFlash('You have successfully logged in.','default',array('class'=>'flash_good'));
-				$this->redirect(array('controller' => 'absences', 'action'=>'index','admin'=>FALSE));
+				//$this->Session->setFlash('You have successfully logged in.','default',array('class'=>'flash_good'));
+				$user = $this->User->_user;
+				if ($user['User']['privileged']) {
+					$this->Session->setFlash('privileged!');
+					$this->redirect(array('controller' => 'absences', 'action'=>'index','admin'=>TRUE));
+				} else {
+					$this->Session->setFlash('unprivileged');
+					$this->redirect(array('controller' => 'absences', 'action'=>'index','admin'=>FALSE));
+				}
 			}
 		}
 	}
@@ -63,6 +70,8 @@ class UsersController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		$this->set('user', $this->User->read(null, $id));
+		$schools = $this->User->School->find('list');
+		$this->set(compact('schools'));
 	}
 
 	function add() {
