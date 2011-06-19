@@ -9,6 +9,7 @@
 		echo $this->Form->input('username');
 		echo $this->Form->input('password');
 		echo $this->Form->input('user_type_id');
+		echo $this->Form->input('email_address');
 		echo $this->Form->input('first_name');
 		echo $this->Form->input('middle_initial');
 		echo $this->Form->input('last_name');

@@ -60,6 +60,12 @@ class User extends AppModel {
 				'allowEmpty'=>FALSE,
 				'message'=>'Please insert a password'
 			)
+		),
+		'email_address' => array(
+			'rule' => 'email',
+			'required' => TRUE,
+			'allowEmpty' => FALSE,
+			'message' => 'Please enter a valid email address'
 		)
 	);
 	
