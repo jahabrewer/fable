@@ -13,6 +13,10 @@ class User extends AppModel {
 		'School' => array(
 			'className' => 'School',
 			'foreignKey' => 'school_id',
+		),
+		'UserType' => array(
+			'className' => 'UserType',
+			'foreignKey' => 'user_type_id'
 		)
 	);
 	

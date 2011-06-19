@@ -41,7 +41,7 @@
 				if ($this->Session->check('User')) {
 					$user = $this->Session->read('User');
 					echo $user['User']['username'];
-					if ($user['User']['privileged']) {
+					if ($user['User']['user_type_id'] == 1) {
 						echo ' is an admin';
 					}
 					echo $this->Html->link('Logout', array('controller' => 'users', 'action' => 'logout', 'admin' => FALSE));

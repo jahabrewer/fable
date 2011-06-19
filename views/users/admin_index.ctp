@@ -5,7 +5,7 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('username');?></th>
-			<th><?php echo $this->Paginator->sort('privileged');?></th>
+			<th><?php echo $this->Paginator->sort('user_type_id');?></th>
 			<th><?php echo $this->Paginator->sort('school_id');?></th>
 			<th><?php echo $this->Paginator->sort('last_login');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
@@ -18,7 +18,7 @@
 	<tr class="<?php echo ($k%2==0) ? 'altrow' : ''; ?>">
 		<td><?php echo $user['User']['id']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['username']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['privileged']; ?>&nbsp;</td>
+		<td><?php echo $user['UserType']['name']; ?>&nbsp;</td>
 		<td><?php echo $this->Html->link($user['School']['name'], array('controller' => 'schools', 'action' => 'view', $user['School']['id'])); ?></td>
 		<td><?php echo $user['User']['last_login']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['created']; ?>&nbsp;</td>

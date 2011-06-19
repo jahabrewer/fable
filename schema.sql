@@ -13,8 +13,8 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
 	id int PRIMARY KEY AUTO_INCREMENT,
 	username varchar(255),
-	password varchar(40),
-	privileged boolean,
+	password char(40),
+	user_type_id int,
 	first_name varchar(32),
 	middle_initial char(1),
 	last_name varchar(32),
@@ -45,3 +45,15 @@ CREATE TABLE schools (
 	name varchar(256),
 	street_address text
 );
+
+DROP TABLE IF EXISTS user_types;
+CREATE TABLE user_types (
+	id int AUTO_INCREMENT PRIMARY KEY,
+	name varchar(32)
+);
+
+-- the application depends on admin being id 1
+INSERT INTO user_types (name) VALUES
+	('Admin'),
+	('Teacher'),
+	('Substitute');

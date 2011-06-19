@@ -145,11 +145,10 @@ class UsersController extends AppController {
 				$this->Session->setFlash('The user could not be saved. Please, try again.');
 			}
 		}
+		$userTypes = $this->User->UserType->find('list');
 		$schools = $this->User->School->find('list');
-		$this->set(compact('schools'));
-		
-		// set form legend text
-		$this->set('legend','Add User');
+		$legend = 'Add User';
+		$this->set(compact('legend', 'schools', 'userTypes'));
 	}
 
 	function admin_edit($id = null) {
