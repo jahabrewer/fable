@@ -186,11 +186,14 @@ class UsersController extends AppController {
 		}
 		
 		// set View variables
-		$this->set('legend','Edit User');
-		$this->set('edit',TRUE);
+		//$this->set('legend','Edit User');
+		//$this->set('edit',TRUE);
 		
+		$legend = 'Edit User';
+		$edit = TRUE;
 		$schools = $this->User->School->find('list');
-		$this->set(compact('schools'));
+		$userTypes = $this->User->UserType->find('list');
+		$this->set(compact('legend', 'edit', 'schools', 'userTypes'));
 
 		// use same View for adding & editing
 		$this->render('admin_add');
