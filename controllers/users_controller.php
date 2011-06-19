@@ -38,7 +38,7 @@ class UsersController extends AppController {
 				// save User to Session and redirect
 				$this->Session->write('User', $this->User->_user);
 				$user = $this->User->_user;
-				if ($user['User']['privileged']) {
+				if ($user['User']['user_type_id'] == 1) {
 					$this->Session->setFlash('You successfully logged in as a privileged user');
 					$this->redirect(array('controller' => 'absences', 'action'=>'index','admin'=>TRUE));
 				} else {
@@ -186,11 +186,9 @@ class UsersController extends AppController {
 		}
 		
 		// set View variables
-		//$this->set('legend','Edit User');
-		//$this->set('edit',TRUE);
-		
 		$legend = 'Edit User';
 		$edit = TRUE;
+		
 		$schools = $this->User->School->find('list');
 		$userTypes = $this->User->UserType->find('list');
 		$this->set(compact('legend', 'edit', 'schools', 'userTypes'));
