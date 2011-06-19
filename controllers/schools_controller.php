@@ -14,7 +14,7 @@ class SchoolsController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		$this->School->recursive = 2;
-		$this->User->recursive = 2;
+		//$this->User->recursive = 0;
 		$this->set('school', $this->School->read(null, $id));
 	}
 
@@ -28,6 +28,7 @@ class SchoolsController extends AppController {
 			$this->Session->setFlash(__('Invalid school', true));
 			$this->redirect(array('action' => 'index'));
 		}
+		$this->School->recursive = 2;
 		$this->set('school', $this->School->read(null, $id));
 	}
 

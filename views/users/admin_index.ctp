@@ -4,8 +4,8 @@
 	<thead>
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('privileged');?></th>
 			<th><?php echo $this->Paginator->sort('username');?></th>
+			<th><?php echo $this->Paginator->sort('privileged');?></th>
 			<th><?php echo $this->Paginator->sort('school_id');?></th>
 			<th><?php echo $this->Paginator->sort('last_login');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
@@ -17,13 +17,14 @@
 	<?php foreach($users as $k=>$user): ?>
 	<tr class="<?php echo ($k%2==0) ? 'altrow' : ''; ?>">
 		<td><?php echo $user['User']['id']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['privileged']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['username']; ?>&nbsp;</td>
-		<td><?php echo $user['School']['name']; ?>&nbsp;</td>
+		<td><?php echo $user['User']['privileged']; ?>&nbsp;</td>
+		<td><?php echo $this->Html->link($user['School']['name'], array('controller' => 'schools', 'action' => 'view', $user['School']['id'])); ?></td>
 		<td><?php echo $user['User']['last_login']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['created']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['modified']; ?>&nbsp;</td>
 		<td class="actions">
+			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $user['User']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $user['User']['id'])); ?>
 			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $user['User']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $user['User']['id'])); ?>
 		</td>

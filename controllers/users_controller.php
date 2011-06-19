@@ -37,13 +37,12 @@ class UsersController extends AppController {
 				
 				// save User to Session and redirect
 				$this->Session->write('User', $this->User->_user);
-				//$this->Session->setFlash('You have successfully logged in.','default',array('class'=>'flash_good'));
 				$user = $this->User->_user;
 				if ($user['User']['privileged']) {
-					$this->Session->setFlash('privileged!');
+					$this->Session->setFlash('You successfully logged in as a privileged user');
 					$this->redirect(array('controller' => 'absences', 'action'=>'index','admin'=>TRUE));
 				} else {
-					$this->Session->setFlash('unprivileged');
+					$this->Session->setFlash('You successfully logged in');
 					$this->redirect(array('controller' => 'absences', 'action'=>'index','admin'=>FALSE));
 				}
 			}
@@ -64,14 +63,19 @@ class UsersController extends AppController {
 		$this->set('users', $this->paginate());
 	}
 
+	function admin_view($id = null) {
+		$this->view($id);
+	}
+
 	function view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect(array('action' => 'index'));
 		}
-		$this->set('user', $this->User->read(null, $id));
+		$this->User->recursive = 2;
+		$user = $this->User->read(null, $id);
 		$schools = $this->User->School->find('list');
-		$this->set(compact('schools'));
+		$this->set(compact('user', 'schools'));
 	}
 
 	function add() {
@@ -123,14 +127,6 @@ class UsersController extends AppController {
 	function admin_index() {
 		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
-	}
-
-	function admin_view($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid user', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->set('user', $this->User->read(null, $id));
 	}
 
 	/**

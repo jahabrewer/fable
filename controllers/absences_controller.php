@@ -13,6 +13,7 @@ class AbsencesController extends AppController {
 			$this->Session->setFlash(__('Invalid absence', true));
 			$this->redirect(array('action' => 'index'));
 		}
+		$this->Absence->recursive = 0;
 		$this->set('absence', $this->Absence->read(null, $id));
 	}
 
@@ -98,6 +99,7 @@ class AbsencesController extends AppController {
 			$this->Session->setFlash(__('Invalid absence', true));
 			$this->redirect(array('action' => 'index'));
 		}
+		$this->Absence->recursive = 0;
 		$this->set('absence', $this->Absence->read(null, $id));
 	}
 
