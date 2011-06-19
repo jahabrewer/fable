@@ -2,6 +2,7 @@
 class AbsencesController extends AppController {
 
 	var $name = 'Absences';
+	var $helpers = array('Time');
 
 	function index() {
 		$this->Absence->recursive = 0;
