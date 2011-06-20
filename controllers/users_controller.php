@@ -28,6 +28,7 @@ class UsersController extends AppController {
 		if(!empty($this->data)) {
 			// unset unrequired validation rules
 			unset($this->User->validate['username']['check_username_exists']);
+			unset($this->User->validate['email_address']);
 			
 			// validate form
 			$this->User->set($this->data);
