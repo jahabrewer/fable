@@ -21,8 +21,8 @@
 		<td><?php echo $user['UserType']['name']; ?>&nbsp;</td>
 		<td><?php echo $this->Html->link($user['School']['name'], array('controller' => 'schools', 'action' => 'view', $user['School']['id'])); ?></td>
 		<td><?php echo $this->Time->relativeTime($user['User']['last_login']); ?>&nbsp;</td>
-		<td><?php echo $this->Time->niceShort($user['User']['created']); ?>&nbsp;</td>
-		<td><?php echo $this->Time->niceShort($user['User']['modified']); ?>&nbsp;</td>
+		<td><?php echo $this->Time->nice($user['User']['created']); ?>&nbsp;</td>
+		<td><?php echo $this->Time->nice($user['User']['modified']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $user['User']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $user['User']['id'])); ?>
