@@ -2,7 +2,7 @@
 class AbsencesController extends AppController {
 
 	var $name = 'Absences';
-	var $helpers = array('Time');
+	var $helpers = array('Time', 'Html');
 
 	function index() {
 		$this->Absence->recursive = 0;
@@ -91,6 +91,24 @@ class AbsencesController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 	function admin_index() {
+		if (isset($this->params['named']['filter'])) {
+			$filter = $this->params['named']['filter'];
+			if ($filter == 'expired') {
+				$this->paginate = array(
+					'conditions' => array('Absence.start <= NOW()')
+				);
+			} elseif ($filter == 'fulfilled') {
+				$this->paginate = array(
+					'conditions' => array('Absence.fulfiller_id IS NOT NULL')
+				);
+			} elseif ($filter == 'all') {
+				$this->paginate = array();
+			}
+		} else {
+			$this->paginate = array(
+				'conditions' => array('Absence.start > NOW() AND Absence.fulfiller_id IS NULL')
+			);
+		}
 		$this->Absence->recursive = 0;
 		$this->set('absences', $this->paginate());
 	}

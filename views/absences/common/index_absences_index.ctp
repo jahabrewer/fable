@@ -1,5 +1,9 @@
 <div class="absences index">
 	<h2><?php __('Absences');?></h2>
+	<?php echo $this->Html->link('Available', array('action' => 'index')); ?>
+	<?php echo $this->Html->link('Fulfilled', array('filter' => 'fulfilled')); ?>
+	<?php echo $this->Html->link('Expired', array('filter' => 'expired')); ?>
+	<?php echo $this->Html->link('All', array('filter' => 'all')); ?>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
