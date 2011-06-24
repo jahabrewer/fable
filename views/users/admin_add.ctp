@@ -14,7 +14,7 @@
 		echo $this->Form->input('first_name');
 		echo $this->Form->input('middle_initial');
 		echo $this->Form->input('last_name');
-		echo $this->Form->input('school_id');
+		echo $this->Form->input('school_id', array('empty' => 'None', 'default' => 'None'));
 		?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>
