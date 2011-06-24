@@ -44,9 +44,19 @@
 		<td><?php echo $this->Time->niceShort($absence['Absence']['created']); ?>&nbsp;</td>
 		<td><?php echo $this->Time->niceShort($absence['Absence']['modified']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $absence['Absence']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $absence['Absence']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $absence['Absence']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $absence['Absence']['id'])); ?>
+			<?php
+			$user = $this->Session->read('User');
+			if (empty($absence['Fulfiller']['id'])) {
+				echo $this->Html->link(__('Take', true), array('action' => 'take', $absence['Absence']['id'])); 
+			} elseif ($absence['Fulfiller']['id'] == $user['User']['id']) {
+				echo $this->Html->link(__('Release', true), array('action' => 'release', $absence['Absence']['id'])); 
+			}
+			echo $this->Html->link(__('View', true), array('action' => 'view', $absence['Absence']['id'])); 
+			if ($absence['Absentee']['id'] == $user['User']['id']) {
+				echo $this->Html->link(__('Edit', true), array('action' => 'edit', $absence['Absence']['id'])); 
+				echo $this->Html->link(__('Delete', true), array('action' => 'delete', $absence['Absence']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $absence['Absence']['id'])); 
+			}
+			?>
 		</td>
 	</tr>
 <?php endforeach; ?>

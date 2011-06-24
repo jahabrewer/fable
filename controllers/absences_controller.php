@@ -90,6 +90,52 @@ class AbsencesController extends AppController {
 		$this->Session->setFlash(__('Absence was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+
+	function take($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for absence', true));
+			$this->redirect(array('action'=>'index'));
+		}
+		// check for null fulfiller_id
+		$user = $this->Session->read('User');
+		$this->data = $this->Absence->read(null, $id);
+		if (empty($this->data['Absence']['fulfiller_id'])) {
+			$this->data['Absence']['fulfiller_id'] = $user['User']['id'];
+			if ($this->Absence->save($this->data)) {
+				$this->Session->setFlash(__('The absence has been taken', true));
+			} else {
+				$this->Session->setFlash(__('The absence could not be taken.', true));
+			}
+		} else {
+			$this->Session->setFlash(__('Absence is already fulfilled', true));
+		}
+
+		$this->redirect(array('action' => 'index'));
+	}
+
+	function release($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for absence', true));
+			$this->redirect(array('action'=>'index'));
+		}
+		// check for fulfiller_id match
+		$user = $this->Session->read('User');
+		$this->data = $this->Absence->read(null, $id);
+		if (!empty($this->data['Absence']['fulfiller_id']) &&
+			($this->data['Absence']['fulfiller_id'] == $user['User']['id'])) {
+			$this->data['Absence']['fulfiller_id'] = null;
+			if ($this->Absence->save($this->data)) {
+				$this->Session->setFlash(__('The absence has been released', true));
+			} else {
+				$this->Session->setFlash(__('The absence could not be released.', true));
+			}
+		} else {
+			$this->Session->setFlash(__('You must be the fulfiller to release an absence', true));
+		}
+
+		$this->redirect(array('action' => 'index'));
+	}
+
 	function admin_index() {
 		if (isset($this->params['named']['filter'])) {
 			$filter = $this->params['named']['filter'];
