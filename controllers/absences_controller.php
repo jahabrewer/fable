@@ -235,28 +235,30 @@ class AbsencesController extends AppController {
 			$this->Session->setFlash('Email notification not sent');
 		} else {
 			$absence = $this->Absence->read(array('start', 'absentee_id', 'fulfiller_id'), $absence_id);
-			$date = $absence['Absence']['start'];
-			$absentee_email = $absence['Absentee']['email_address'];
-			/*$this->Email->smtpOptions = array(
-				'port' => '465',
-				'host' => 'ssl://smtp.gmail.com',
-				'username' => 'jahabrewer@gmail.com',
-				'password' => 
-			);
-			$this->Email->delivery = 'smtp';*/
-			$this->Email->delivery = 'debug';
-			$this->Email->from = 'Fable <noreply@example.com>';
-			$this->Email->to = $absentee_email;
+			if ($absence['Absentee']['absence_change_notify']) {
+				$date = $absence['Absence']['start'];
+				$absentee_email = $absence['Absentee']['email_address'];
+				/*$this->Email->smtpOptions = array(
+					'port' => '465',
+					'host' => 'ssl://smtp.gmail.com',
+					'username' => 'jahabrewer@gmail.com',
+					'password' => 
+				);
+				$this->Email->delivery = 'smtp';*/
+				$this->Email->delivery = 'debug';
+				$this->Email->from = 'Fable <noreply@example.com>';
+				$this->Email->to = $absentee_email;
 
-			switch ($options['message_type']) {
-			case 'taken':
-				$fulfiller_name = $absence['Fulfiller']['first_name'] . ' ' . $absence['Fulfiller']['last_name'];
-				$this->Email->subject = 'Absence Fulfilled';
-				$this->Email->send('Your absence beginning on ' . $date . ' was fulfilled by ' . $fulfiller_name . '.');
-				break;
-			case 'released':
-				$this->Email->subject = 'Absence Released';
-				$this->Email->send('Your absence beginning on ' . $date . ' was released.');
+				switch ($options['message_type']) {
+				case 'taken':
+					$fulfiller_name = $absence['Fulfiller']['first_name'] . ' ' . $absence['Fulfiller']['last_name'];
+					$this->Email->subject = 'Absence Fulfilled';
+					$this->Email->send('Your absence beginning on ' . $date . ' was fulfilled by ' . $fulfiller_name . '.');
+					break;
+				case 'released':
+					$this->Email->subject = 'Absence Released';
+					$this->Email->send('Your absence beginning on ' . $date . ' was released.');
+				}
 			}
 		}
 		$this->redirect(array('action' => 'index'));
