@@ -11,7 +11,8 @@ class Absence extends AppModel {
 			),
 			'futureDate' => array(
 				'rule' => array('futureDate', 'start'),
-				'message' => 'The absence must begin in the future'
+				'message' => 'The absence must begin in the future',
+				'on' => 'create'
 			)
 		)
 	);
