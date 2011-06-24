@@ -52,6 +52,7 @@
 		<div id="content">
 
 			<?php echo $this->Session->flash(); ?>
+			<?php echo $this->Session->flash('email'); ?>
 
 			<?php echo $content_for_layout; ?>
 
