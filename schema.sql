@@ -19,6 +19,7 @@ CREATE TABLE users (
 	middle_initial char(1),
 	last_name varchar(32),
 	email_address varchar(128),
+	absence_change_notify boolean DEFAULT 0,
 	last_login datetime DEFAULT '0000-00-00 00:00:00',
 	school_id int,
 	created datetime,
@@ -52,7 +53,7 @@ CREATE TABLE user_types (
 	name varchar(32)
 );
 
--- the application depends on admin being id 1
+-- the application depends on this ordering
 INSERT INTO user_types (name) VALUES
 	('Admin'),
 	('Teacher'),
