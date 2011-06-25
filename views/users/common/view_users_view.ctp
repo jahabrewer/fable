@@ -46,6 +46,18 @@
 			<?php echo $this->Html->link($user['School']['name'], array('controller' => 'schools', 'action' => 'view', $user['School']['id'])); ?>
 			&nbsp;
 		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Preferred Schools'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php
+			$j = 0;
+			$count = count($user['PreferredSchool']);
+			foreach ($user['PreferredSchool'] as $preferredSchool) {
+				echo $preferredSchool['name'];
+				if ($j++ < $count-1) echo '<br />';
+			}
+			?>
+			&nbsp;
+		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $this->Time->nice($user['User']['created']); ?>

@@ -15,6 +15,11 @@
 		echo $this->Form->input('middle_initial');
 		echo $this->Form->input('last_name');
 		echo $this->Form->input('school_id', array('empty' => 'None', 'default' => 'None'));
+		if (isset($edit)) {
+			echo $this->Form->input('PreferredSchool', array('selected' => $selectedSchools));
+		} else {
+			echo $this->Form->input('PreferredSchool');
+		}
 		?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

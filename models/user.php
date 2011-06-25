@@ -33,6 +33,13 @@ class User extends AppModel {
 		)
 	);
 
+	var $hasAndBelongsToMany = array(
+		'PreferredSchool' => array (
+			'className'	=> 'School',
+			//'joinTable'	=> 'schools_users'
+		)
+	);
+
 	/**
 	 * Validation rules
 	 * @var array

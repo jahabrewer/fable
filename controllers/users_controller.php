@@ -149,8 +149,9 @@ class UsersController extends AppController {
 		}
 		$userTypes = $this->User->UserType->find('list');
 		$schools = $this->User->School->find('list');
+		$preferredSchools = $schools;
 		$legend = 'Add User';
-		$this->set(compact('legend', 'schools', 'userTypes'));
+		$this->set(compact('legend', 'schools', 'userTypes', 'preferredSchools'));
 	}
 
 	function admin_edit($id = null) {
@@ -158,6 +159,7 @@ class UsersController extends AppController {
 			$this->Session->setFlash('Invalid user');
 			$this->redirect(array('action' => 'index'));
 		}
+		$this->User->recursive = 1;
 		
 		// get & check User
 		$user = $this->User->read(null, $id);
@@ -193,7 +195,10 @@ class UsersController extends AppController {
 		
 		$schools = $this->User->School->find('list');
 		$userTypes = $this->User->UserType->find('list');
-		$this->set(compact('legend', 'edit', 'schools', 'userTypes'));
+		$preferredSchools = $schools;
+		$selectedSchools = array();
+		foreach ($this->data['PreferredSchool'] as $school) array_push($selectedSchools, $school['id']);
+		$this->set(compact('legend', 'edit', 'schools', 'userTypes', 'preferredSchools', 'selectedSchools'));
 
 		// use same View for adding & editing
 		$this->render('admin_add');

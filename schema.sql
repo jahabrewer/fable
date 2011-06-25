@@ -11,27 +11,27 @@ CREATE TABLE cake_sessions (
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
-	id int PRIMARY KEY AUTO_INCREMENT,
+	id int unsigned PRIMARY KEY AUTO_INCREMENT,
 	username varchar(255),
 	password char(40),
-	user_type_id int,
+	user_type_id int unsigned,
 	first_name varchar(32),
 	middle_initial char(1),
 	last_name varchar(32),
 	email_address varchar(128),
 	absence_change_notify boolean DEFAULT 0,
 	last_login datetime DEFAULT '0000-00-00 00:00:00',
-	school_id int,
+	school_id int unsigned,
 	created datetime,
 	modified datetime
 );
 
 DROP TABLE IF EXISTS absences;
 CREATE TABLE absences (
-	id int AUTO_INCREMENT PRIMARY KEY,
-	absentee_id int,
-	fulfiller_id int,
-	school_id int,
+	id int unsigned AUTO_INCREMENT PRIMARY KEY,
+	absentee_id int unsigned,
+	fulfiller_id int unsigned,
+	school_id int unsigned,
 	room varchar(16),
 	start datetime,
 	end datetime,
@@ -42,14 +42,21 @@ CREATE TABLE absences (
 
 DROP TABLE IF EXISTS schools;
 CREATE TABLE schools (
-	id int AUTO_INCREMENT PRIMARY KEY,
+	id int unsigned AUTO_INCREMENT PRIMARY KEY,
 	name varchar(256),
 	street_address text
 );
 
+DROP TABLE IF EXISTS schools_users;
+CREATE TABLE schools_users (
+	id int unsigned AUTO_INCREMENT PRIMARY KEY,
+	schools_id int,
+	users_id int
+);
+
 DROP TABLE IF EXISTS user_types;
 CREATE TABLE user_types (
-	id int AUTO_INCREMENT PRIMARY KEY,
+	id int unsigned AUTO_INCREMENT PRIMARY KEY,
 	name varchar(32)
 );
 
