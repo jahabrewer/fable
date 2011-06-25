@@ -50,8 +50,8 @@ CREATE TABLE schools (
 DROP TABLE IF EXISTS schools_users;
 CREATE TABLE schools_users (
 	id int unsigned AUTO_INCREMENT PRIMARY KEY,
-	schools_id int,
-	users_id int
+	school_id int,
+	user_id int
 );
 
 DROP TABLE IF EXISTS user_types;
