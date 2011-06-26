@@ -26,7 +26,7 @@
 		<tr<?php echo $class;?>>
 			<td><?php echo $absenceMade['id'];?></td>
 			<td><?php echo $this->Html->link($absenceMade['Absentee']['username'], array('controller' => 'users', 'action' => 'view', $absenceMade['Absentee']['id'])); ?></td>
-			<td><?php echo $this->Html->link($absenceMade['Fulfiller']['username'], array('controller' => 'users', 'action' => 'view', $absenceMade['Fulfiller']['id'])); ?></td>
+			<td><?php if (!empty($absenceMade['Fulfiller'])) echo $this->Html->link($absenceMade['Fulfiller']['username'], array('controller' => 'users', 'action' => 'view', $absenceMade['Fulfiller']['id'])); ?></td>
 			<td><?php echo $this->Html->link($absenceMade['School']['name'], array('controller' => 'schools', 'action' => 'view', $absenceMade['School']['id'])); ?></td>
 			<td><?php echo $absenceMade['room'];?></td>
 			<td><?php echo $absenceMade['start'];?></td>
