@@ -18,7 +18,11 @@ CREATE TABLE users (
 	first_name varchar(32),
 	middle_initial char(1),
 	last_name varchar(32),
+	primary_phone char(12),
+	secondary_phone char(12),
 	email_address varchar(128),
+	education_level_id int unsigned,
+	certification date,
 	absence_change_notify boolean DEFAULT 0,
 	last_login datetime DEFAULT '0000-00-00 00:00:00',
 	school_id int unsigned,
@@ -60,8 +64,22 @@ CREATE TABLE user_types (
 	name varchar(32)
 );
 
+DROP TABLE IF EXISTS education_levels;
+CREATE TABLE education_levels (
+	id int unsigned AUTO_INCREMENT PRIMARY KEY,
+	name varchar(64)
+);
+
 -- the application depends on this ordering
 INSERT INTO user_types (name) VALUES
 	('Admin'),
 	('Teacher'),
 	('Substitute');
+
+INSERT INTO education_levels (name) VALUES
+	('Some High School'),
+	('High School'),
+	("Associate's Degree"),
+	("Bachelor's Degree"),
+	("Master's Degree"),
+	('Doctorate');

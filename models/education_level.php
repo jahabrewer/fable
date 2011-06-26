@@ -1,12 +1,12 @@
 <?php
-class UserType extends AppModel {
-	var $name = 'UserType';
+class EducationLevel extends AppModel {
+	var $name = 'EducationLevel';
 	var $displayField = 'name';
 
 	var $hasMany = array(
 		'User' => array(
 			'className' => 'User',
-			'foreignKey' => 'user_type_id',
+			'foreignKey' => 'education_level_id',
 			'dependent' => false,
 		)
 	);

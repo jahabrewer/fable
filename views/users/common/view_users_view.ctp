@@ -16,11 +16,6 @@
 			<?php echo $user['UserType']['name']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Email Address'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['email_address']; ?>
-			&nbsp;
-		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('First Name'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $user['User']['first_name']; ?>
@@ -36,6 +31,30 @@
 			<?php echo $user['User']['last_name']; ?>
 			&nbsp;
 		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Email Address'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $user['User']['email_address']; ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Primary Phone'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $user['User']['primary_phone']; ?>
+			&nbsp;
+		</dd>
+		<?php if (!empty($user['User']['secondary_phone'])) { ?>
+			<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Secondary Phone'); ?></dt>
+			<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+				<?php echo $user['User']['secondary_phone']; ?>
+				&nbsp;
+			</dd>
+		<?php } ?>
+		<?php if ($user['User']['user_type_id'] == 3) { ?>
+			<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Education Level'); ?></dt>
+			<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+				<?php echo $user['EducationLevel']['name']; ?>
+				&nbsp;
+			</dd>
+		<?php } ?>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Last Login'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $this->Time->nice($user['User']['last_login']); ?>

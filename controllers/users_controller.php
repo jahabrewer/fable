@@ -149,9 +149,10 @@ class UsersController extends AppController {
 		}
 		$userTypes = $this->User->UserType->find('list');
 		$schools = $this->User->School->find('list');
+		$educationLevels = $this->User->EducationLevel->find('list');
 		$preferredSchools = $schools;
 		$legend = 'Add User';
-		$this->set(compact('legend', 'schools', 'userTypes', 'preferredSchools'));
+		$this->set(compact('legend', 'schools', 'userTypes', 'educationLevels', 'preferredSchools'));
 	}
 
 	function admin_edit($id = null) {
@@ -195,10 +196,11 @@ class UsersController extends AppController {
 		
 		$schools = $this->User->School->find('list');
 		$userTypes = $this->User->UserType->find('list');
+		$educationLevels = $this->User->EducationLevel->find('list');
 		$preferredSchools = $schools;
 		$selectedSchools = array();
-		foreach ($this->data['PreferredSchool'] as $school) array_push($selectedSchools, $school['id']);
-		$this->set(compact('legend', 'edit', 'schools', 'userTypes', 'preferredSchools', 'selectedSchools'));
+		if (!empty($this->data['PreferredSchool'])) foreach ($this->data['PreferredSchool'] as $school) array_push($selectedSchools, $school['id']);
+		$this->set(compact('legend', 'edit', 'schools', 'userTypes', 'educationLevels', 'preferredSchools', 'selectedSchools'));
 
 		// use same View for adding & editing
 		$this->render('admin_add');

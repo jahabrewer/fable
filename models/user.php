@@ -17,7 +17,11 @@ class User extends AppModel {
 		'UserType' => array(
 			'className' => 'UserType',
 			'foreignKey' => 'user_type_id'
-		)
+		),
+		'EducationLevel' => array(
+			'className' => 'EducationLevel',
+			'foreignKey' => 'education_level_id'
+		),
 	);
 	
 	var $hasMany = array(
@@ -73,7 +77,19 @@ class User extends AppModel {
 			'required' => TRUE,
 			'allowEmpty' => FALSE,
 			'message' => 'Please enter a valid email address'
-		)
+		),
+		'primary_phone' => array(
+			'rule' => 'phone',
+			'country' => 'us',
+			'allowEmpty' => FALSE,
+			'message' => 'Please enter a valid telephone number',
+		),
+		'secondary_phone' => array(
+			'rule' => 'phone',
+			'country' => 'us',
+			'allowEmpty' => TRUE,
+			'message' => 'Please enter a valid telephone number',
+		),
 	);
 	
 	/**
