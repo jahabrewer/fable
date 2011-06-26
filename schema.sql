@@ -70,6 +70,17 @@ CREATE TABLE education_levels (
 	name varchar(64)
 );
 
+DROP TABLE IF EXISTS reviews;
+CREATE TABLE reviews (
+	id int unsigned AUTO_INCREMENT PRIMARY KEY,
+	author_id int unsigned,
+	subject_id int unsigned,
+	rating tinyint,
+	review text,
+	created datetime,
+	modified datetime
+);
+
 -- the application depends on this ordering
 INSERT INTO user_types (name) VALUES
 	('Admin'),
@@ -83,3 +94,19 @@ INSERT INTO education_levels (name) VALUES
 	("Bachelor's Degree"),
 	("Master's Degree"),
 	('Doctorate');
+
+-- set up the dev environment
+INSERT INTO schools (name, street_address) VALUES
+	('Tift County High', '1 Blue Devil Way'),
+	('Eighth Street Middle', '800 W 8th St'),
+	('Matt Wilson Elementary', '123 1st St'),
+	('Len Lastinger Primary', '802 Lakeside Dr');
+
+INSERT INTO users (username, password, first_name, middle_initial, last_name, user_type_id, email_address, primary_phone, education_level_id, certification, absence_change_notify, school_id) VALUES
+	('jbrewer', 'c86440e3754643c03fa6e0ff27dcfaaf', 'James', 'X', 'Brewer', 1, 'jbrewer@example.com', '555-555-6789', null, null, 1, null),
+	('icrawley', 'c86440e3754643c03fa6e0ff27dcfaaf', 'Ingrid', 'A', 'Crawley', 2, 'icrawley@example.com', '555-555-1290', null, null, 1, 1),
+	('vgrandma', 'c86440e3754643c03fa6e0ff27dcfaaf', 'Victoria', 'C', 'Grandma', 3, 'vgrandma@example.com', '555-555-9934', 2, '2005-03-11', 0, null);
+
+INSERT INTO schools_users (school_id, user_id) VALUES
+	(3, 3),
+	(4, 3);
