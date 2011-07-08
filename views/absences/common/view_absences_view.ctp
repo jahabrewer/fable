@@ -51,5 +51,15 @@
 			<?php echo $this->Time->nice($absence['Absence']['modified']); ?>
 			&nbsp;
 		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Applicants'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+		<?php
+		foreach ($absence['Application'] as $key => $value) {
+			echo $value['User']['username'];
+			echo '<br />';
+		}
+		?>
+			&nbsp;
+		</dd>
 	</dl>
 </div>

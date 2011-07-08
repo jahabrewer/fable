@@ -46,11 +46,9 @@
 		<td class="actions">
 			<?php
 			$user = $this->Session->read('User');
-			if (empty($absence['Fulfiller']['id']) && ($absence['Absentee']['id'] != $user['User']['id'])) {
-				echo $this->Html->link(__('Take', true), array('action' => 'take', $absence['Absence']['id'])); 
-			} elseif ($absence['Fulfiller']['id'] == $user['User']['id']) {
-				echo $this->Html->link(__('Release', true), array('action' => 'release', $absence['Absence']['id'])); 
-			}
+			echo $this->Html->link(__('Apply', true), array('controller' => 'absences', 'action' => 'apply', $absence['Absence']['id'])); 
+			echo $this->Html->link(__('Unapply', true), array('action' => 'unapply', $absence['Absence']['id'])); 
+			echo $this->Html->link(__('Release', true), array('action' => 'release', $absence['Absence']['id'])); 
 			echo $this->Html->link(__('View', true), array('action' => 'view', $absence['Absence']['id'])); 
 			if ($absence['Absentee']['id'] == $user['User']['id']) {
 				echo $this->Html->link(__('Edit', true), array('action' => 'edit', $absence['Absence']['id'])); 

@@ -81,6 +81,13 @@ CREATE TABLE reviews (
 	modified datetime
 );
 
+DROP TABLE IF EXISTS applications;
+CREATE TABLE applications (
+	id int unsigned AUTO_INCREMENT PRIMARY KEY,
+	user_id int unsigned,
+	absence_id int unsigned
+);
+
 -- the application depends on this ordering
 INSERT INTO user_types (name) VALUES
 	('Admin'),

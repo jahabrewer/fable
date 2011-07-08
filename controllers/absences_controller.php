@@ -24,7 +24,7 @@ class AbsencesController extends AppController {
 				'conditions' => array('Absence.start > NOW() AND Absence.fulfiller_id IS NULL')
 			);
 		}
-		$this->Absence->recursive = 0;
+		$this->Absence->recursive = 1;
 		$this->set('absences', $this->paginate());
 	}
 
@@ -33,7 +33,7 @@ class AbsencesController extends AppController {
 			$this->Session->setFlash(__('Invalid absence', true));
 			$this->redirect(array('action' => 'index'));
 		}
-		$this->Absence->recursive = 0;
+		$this->Absence->recursive = 2;
 		$this->set('absence', $this->Absence->read(null, $id));
 	}
 
@@ -107,33 +107,6 @@ class AbsencesController extends AppController {
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('Absence was not deleted', true));
-		$this->redirect(array('action' => 'index'));
-	}
-
-	function admin_take($id = null) {
-		$this->take($id);
-	}
-
-	function take($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for absence', true));
-			$this->redirect(array('action'=>'index'));
-		}
-		// check for null fulfiller_id
-		$user = $this->Session->read('User');
-		$this->data = $this->Absence->read(null, $id);
-		if (empty($this->data['Absence']['fulfiller_id'])) {
-			$this->data['Absence']['fulfiller_id'] = $user['User']['id'];
-			if ($this->Absence->save($this->data)) {
-				$this->Session->setFlash(__('The absence has been taken', true));
-				$this->_send_email_notification(array('message_type' => 'taken'), $this->data['Absence']['id']);
-			} else {
-				$this->Session->setFlash(__('The absence could not be taken.', true));
-			}
-		} else {
-			$this->Session->setFlash(__('Absence is already fulfilled', true));
-		}
-
 		$this->redirect(array('action' => 'index'));
 	}
 
@@ -227,6 +200,93 @@ class AbsencesController extends AppController {
 		}
 		$this->Session->setFlash(__('Absence was not deleted', true));
 		$this->redirect(array('action' => 'index'));
+	}
+
+	function apply($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid absence', true));
+			$this->redirect(array('action' => 'index'));
+		}
+
+		$user = $this->Session->read('User');
+
+		// check for substitute status
+		if ($user['User']['user_type_id'] != 3) {
+			$this->Session->setFlash('You must be a substitute to apply for absences');
+			$this->redirect(array('action' => 'index'));
+		}
+
+		$data = array(
+			'user_id' => $user['User']['id'],
+			'absence_id' => $id,
+		);
+		if ($this->Absence->Application->save($data)) {
+			$this->Session->setFlash('Application successful');
+		} else {
+			$this->Session->setFlash('You have already applied for that absence');
+		}
+		$this->redirect(array('action' => 'index'));
+	}
+
+	function unapply($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid absence', true));
+			$this->redirect(array('action' => 'index'));
+		}
+
+		$user = $this->Session->read('User');
+
+		// has the user applied? (deleteall works regardlessly, but
+		// the successful delete message will confuse users)
+		$tmp = $this->Absence->Application->findApplicationsByAbsenceAndUser($id, $user['User']['id']);
+		if (empty($tmp)) {
+			$this->Session->setFlash(__('You did not apply for that absence', true));
+			$this->redirect(array('action' => 'index'));
+		}
+
+		$conditions = array(
+			'Application.user_id' => $user['User']['id'],
+			'Application.absence_id' => $id
+		);
+		if ($this->Absence->Application->deleteAll($conditions)) {
+			$this->Session->setFlash('Application deleted successfully');
+		} else {
+			$this->Session->setFlash('Application was not deleted successfully');
+		}
+		$this->redirect(array('action' => 'index'));
+	}
+
+	function accept($absence_id, $substitute_id) {
+		if (!$absence_id || !$substitute_id) {
+			$this->Session->setFlash(__('Invalid absence or substitute', true));
+			$this->redirect(array('action' => 'index'));
+		}
+
+		// check for ownership
+		$user = $this->Session->read('User');
+		$absence = $this->Absence->read(array('id', 'absentee_id', 'fulfiller_id'), $absence_id);
+		if ($absence['Absence']['absentee_id'] != $user['User']['id']) {
+			$this->Session->setFlash('You do not have permission to edit that absence');
+			$this->redirect(array('action' => 'index'));
+		}
+
+		// did this sub actually submit an application?
+		$tmp = $this->Absence->Application->findApplicationsByAbsenceAndUser($absence_id, $substitute_id);
+		if (empty($tmp)) {
+			$this->Session->setFlash('That user did not apply for this absence');
+			$this->redirect(array('action' => 'index'));
+		}
+
+		// give this sub the absence and clear the applications
+		$absence['Absence']['fulfiller_id'] = $substitute_id;
+		if ($this->Absence->save($absence)) {
+			$this->Absence->Application->deleteAllApplicationsByAbsence($absence_id);
+			$this->Session->setFlash('Substitute accepted');
+			$this->redirect(array('action' => 'view', $absence_id));
+		} else {
+			$this->Session->setFlash('Substitute accepted');
+			$this->redirect(array('action' => 'index'));
+		}
 	}
 
 	function _send_email_notification($options, $absence_id) {

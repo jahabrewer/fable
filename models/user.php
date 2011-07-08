@@ -34,7 +34,12 @@ class User extends AppModel {
 			'className' => 'Absence',
 			'foreignKey' => 'fulfiller_id',
 			'dependent' => false,
-		)
+		),
+		'Application' => array(
+			'className' => 'Application',
+			'foreignKey' => 'user_id',
+			'dependent' => false,
+		),
 	);
 
 	var $hasAndBelongsToMany = array(

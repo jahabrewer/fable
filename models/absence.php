@@ -32,6 +32,14 @@ class Absence extends AppModel {
 		)
 	);
 
+	var $hasMany = array(
+		'Application' => array(
+			'className' => 'Application',
+			'foreignKey' => 'absence_id',
+			'dependent' => false,
+		),
+	);
+
 	function startBeforeEnd($field=array(), $compare_field) {
 		foreach($field as $key => $value) {
 			$v1 = $value;
