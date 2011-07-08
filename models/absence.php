@@ -40,6 +40,15 @@ class Absence extends AppModel {
 		),
 	);
 
+	function isAbsenceOwnedByUser($absence_id, $user_id) {
+		$absence = $this->read(array('absentee_id'), $absence_id);
+		if (isset($absence['Absence']['absentee_id']) && ($absence['Absence']['absentee_id'] == $user_id)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	function startBeforeEnd($field=array(), $compare_field) {
 		foreach($field as $key => $value) {
 			$v1 = $value;

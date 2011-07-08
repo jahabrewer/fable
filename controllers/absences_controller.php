@@ -66,8 +66,7 @@ class AbsencesController extends AppController {
 
 		// check for ownership
 		$user = $this->Session->read('User');
-		$absence = $this->Absence->read(null, $id);
-		if ($absence['Absence']['absentee_id'] != $user['User']['id']) {
+		if (!$this->Absence->isAbsenceOwnedByUser($id, $user['User']['id'])) {
 			$this->Session->setFlash('You do not have permission to edit that absence');
 			$this->redirect(array('action' => 'index'));
 		}
@@ -96,8 +95,7 @@ class AbsencesController extends AppController {
 		}
 		// check for ownership
 		$user = $this->Session->read('User');
-		$absence = $this->Absence->read('absentee_id', $id);
-		if ($absence['Absence']['absentee_id'] != $user['User']['id']) {
+		if (!$this->Absence->isAbsenceOwnedByUser($id, $user['User']['id'])) {
 			$this->Session->setFlash('You do not have permission to delete that absence');
 			$this->redirect(array('action'=>'index'));
 		}
@@ -265,7 +263,7 @@ class AbsencesController extends AppController {
 		// check for ownership
 		$user = $this->Session->read('User');
 		$absence = $this->Absence->read(array('id', 'absentee_id', 'fulfiller_id'), $absence_id);
-		if ($absence['Absence']['absentee_id'] != $user['User']['id']) {
+		if (!$this->Absence->isAbsenceOwnedByUser($absence_id, $user['User']['id'])) {
 			$this->Session->setFlash('You do not have permission to edit that absence');
 			$this->redirect(array('action' => 'index'));
 		}
