@@ -7,6 +7,7 @@ class UsersController extends AppController {
 	/**
 	 * Register action
 	 */
+	 /*
 	function register() {
 		if(!empty($this->data)) {
 			// unset unrequired validation rules
@@ -20,6 +21,7 @@ class UsersController extends AppController {
 			}
 		}
 	}
+	*/
 
 	/**
 	 * Login action
@@ -40,15 +42,34 @@ class UsersController extends AppController {
 				// save User to Session and redirect
 				$this->Session->write('User', $this->User->_user);
 				$user = $this->User->_user;
-				if ($user['User']['user_type_id'] == 1) {
+				if ($this->User->isAdmin($user['User'])) {
 					$this->Session->setFlash('You successfully logged in as a privileged user');
-					$this->redirect(array('controller' => 'absences', 'action'=>'index','admin'=>TRUE));
-				} else {
-					$this->Session->setFlash('You successfully logged in');
-					$this->redirect(array('controller' => 'absences', 'action'=>'index','admin'=>FALSE));
+					$this->redirect(array(
+						'controller' => 'absences',
+						'action' => 'index',
+						'admin' => true,
+					));
+				} else if ($this->User->isTeacher($user['User'])) {
+					$this->Session->setFlash('You successfully logged in as a teacher');
+					$this->redirect(array(
+						'controller' => 'absences',
+						'action' => 'index',
+						'teacher' => true,
+					));
+				} else if ($this->User->isSubstitute($user['User'])) {
+					$this->Session->setFlash('You successfully logged in as a substitute');
+					$this->redirect(array(
+						'controller' => 'absences',
+						'action' => 'index',
+						'substitute' => true,
+					));
 				}
 			}
 		}
+	}
+
+	function substitute_logout() {
+		$this->logout();
 	}
 	
 	/**
@@ -56,8 +77,13 @@ class UsersController extends AppController {
 	 */
 	function logout() {
 		$this->Session->delete('User');
-		$this->Session->setFlash('You have successfully logged out.','default',array('class'=>'flash_good'));
-		$this->redirect(array('action' => 'login'));
+		$this->Session->setFlash('You have successfully logged out', 'default', array('class'=>'flash_good'));
+		$this->redirect(array(
+			'action' => 'login',
+			'substitute' => false,
+			'admin' => false,
+			'teacher' => false,
+		));
 	}
 
 	function index() {

@@ -102,7 +102,30 @@ class User extends AppModel {
 	 * @var array
 	 */
 	var $_user = array();
+
+	function isAdmin($user) {
+		if (isset($user['user_type_id']) && ($user['user_type_id'] == 1)) {
+			return true;
+		}
+
+		return false;
+	}
 	
+	function isTeacher($user) {
+		if (isset($user['user_type_id']) && ($user['user_type_id'] == 2)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	function isSubstitute($user) {
+		if (isset($user['user_type_id']) && ($user['user_type_id'] == 3)) {
+			return true;
+		}
+
+		return false;
+	}
 	
 	/**
 	 * Check a User is valid

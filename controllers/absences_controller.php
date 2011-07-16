@@ -2,8 +2,8 @@
 class AbsencesController extends AppController {
 
 	var $name = 'Absences';
-	var $helpers = array('Time', 'Html');
-	var $components = array('Email');
+	var $helpers = array('Time', 'Html', 'Js');
+	var $components = array('Email', 'RequestHandler');
 
 	function index() {
 		if (isset($this->params['named']['filter'])) {
@@ -285,6 +285,29 @@ class AbsencesController extends AppController {
 			$this->Session->setFlash('Substitute accepted');
 			$this->redirect(array('action' => 'index'));
 		}
+	}
+
+	function substitute_index($filter = null) {
+		$this->layout = 'substitute';
+		$this->Absence->recursive = 1;
+
+		if (empty($filter)) $filter = 'available';
+		// set appropriate where clause
+		if ($filter == 'available') {
+			$sql_filter = 'Absence.start > NOW() AND Absence.fulfiller_id IS NULL';
+		} else if ($filter == 'expired') {
+			$sql_filter = 'Absence.start <= NOW()';
+		} else if ($filter == 'fulfilled') {
+			$sql_filter = 'Absence.fulfiller_id IS NOT NULL';
+		} else if ($filter == 'all') {
+			$sql_filter = '';
+		} else {
+			$sql_filter = '';
+		}
+
+		// retrieve records
+		$this->set('absences', $this->paginate('Absence', $sql_filter));
+		$this->set(compact('filter'));
 	}
 
 	function _send_email_notification($options, $absence_id) {

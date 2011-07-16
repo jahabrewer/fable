@@ -2,13 +2,6 @@ CREATE DATABASE IF NOT EXISTS fable2;
 
 USE fable2
 
-DROP TABLE IF EXISTS cake_sessions;
-CREATE TABLE cake_sessions (
-	id varchar(255) PRIMARY KEY NOT NULL DEFAULT '',
-	data text,
-	expires int(11)
-);
-
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
 	id int unsigned PRIMARY KEY AUTO_INCREMENT,
