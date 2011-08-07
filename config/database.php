@@ -79,7 +79,7 @@ class DATABASE_CONFIG {
 		'host' => 'localhost',
 		'login' => 'user',
 		'password' => 'password',
-		'database' => 'fable2',
+		'database' => 'fable',
 		'prefix' => '',
 	);
 }
