@@ -4,7 +4,7 @@
 		<legend><?php __('Admin Edit Review'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('author_id');
+		echo $this->Form->input('author_id', array('disabled' => true));
 		echo $this->Form->input('subject_id');
 		echo $this->Form->input('rating');
 		echo $this->Form->input('review');

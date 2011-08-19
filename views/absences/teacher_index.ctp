@@ -1,9 +1,5 @@
 <div class="absences index">
 	<h2><?php __('Absences');?></h2>
-	<?php echo $this->Html->link('Available', array('action' => 'index')); ?>
-	<?php echo $this->Html->link('Fulfilled', array('filter' => 'fulfilled')); ?>
-	<?php echo $this->Html->link('Expired', array('filter' => 'expired')); ?>
-	<?php echo $this->Html->link('All', array('filter' => 'all')); ?>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
@@ -38,23 +34,15 @@
 			<?php echo $this->Html->link($absence['School']['name'], array('controller' => 'schools', 'action' => 'view', $absence['School']['id'])); ?>
 		</td>
 		<td><?php echo $absence['Absence']['room']; ?>&nbsp;</td>
-		<td><?php echo $this->Time->niceShort($absence['Absence']['start']); ?>&nbsp;</td>
-		<td><?php echo $this->Time->niceShort($absence['Absence']['end']); ?>&nbsp;</td>
+		<td><?php echo $absence['Absence']['start']; ?>&nbsp;</td>
+		<td><?php echo $absence['Absence']['end']; ?>&nbsp;</td>
 		<td><?php echo $absence['Absence']['comment']; ?>&nbsp;</td>
-		<td><?php echo $this->Time->niceShort($absence['Absence']['created']); ?>&nbsp;</td>
-		<td><?php echo $this->Time->niceShort($absence['Absence']['modified']); ?>&nbsp;</td>
+		<td><?php echo $absence['Absence']['created']; ?>&nbsp;</td>
+		<td><?php echo $absence['Absence']['modified']; ?>&nbsp;</td>
 		<td class="actions">
-			<?php
-			$user = $this->Session->read('User');
-			echo $this->Html->link(__('Apply', true), array('controller' => 'absences', 'action' => 'apply', $absence['Absence']['id'])); 
-			echo $this->Html->link(__('Unapply', true), array('action' => 'unapply', $absence['Absence']['id'])); 
-			echo $this->Html->link(__('Release', true), array('action' => 'release', $absence['Absence']['id'])); 
-			echo $this->Html->link(__('View', true), array('action' => 'view', $absence['Absence']['id'])); 
-			if ($absence['Absentee']['id'] == $user['User']['id']) {
-				echo $this->Html->link(__('Edit', true), array('action' => 'edit', $absence['Absence']['id'])); 
-				echo $this->Html->link(__('Delete', true), array('action' => 'delete', $absence['Absence']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $absence['Absence']['id'])); 
-			}
-			?>
+			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $absence['Absence']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $absence['Absence']['id'])); ?>
+			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $absence['Absence']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $absence['Absence']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -72,4 +60,16 @@
  |
 		<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
+</div>
+<div class="actions">
+	<h3><?php __('Actions'); ?></h3>
+	<ul>
+		<li><?php echo $this->Html->link(__('New Absence', true), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('List Users', true), array('controller' => 'users', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Absentee', true), array('controller' => 'users', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Schools', true), array('controller' => 'schools', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New School', true), array('controller' => 'schools', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Applications', true), array('controller' => 'applications', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Application', true), array('controller' => 'applications', 'action' => 'add')); ?> </li>
+	</ul>
 </div>

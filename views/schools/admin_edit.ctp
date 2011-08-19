@@ -1,7 +1,7 @@
 <div class="schools form">
 <?php echo $this->Form->create('School');?>
 	<fieldset>
-		<legend><?php __('Admin Edit School'); ?></legend>
+		<legend><?php __('Edit School'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('name');

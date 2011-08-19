@@ -1,15 +1,15 @@
 <div class="absences form">
 <?php echo $this->Form->create('Absence');?>
 	<fieldset>
-		<legend><?php __('Admin Edit Absence'); ?></legend>
+		<legend><?php __('Edit Absence'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('absentee_id', array('empty' => 'None'));
-		echo $this->Form->input('fulfiller_id', array('empty' => 'None'));
+		echo $this->Form->input('absentee_id');
+		echo $this->Form->input('fulfiller_id', array('empty' => 'Not specified'));
 		echo $this->Form->input('school_id');
 		echo $this->Form->input('room');
-		echo $this->Form->input('start', array('interval' => 15));
-		echo $this->Form->input('end', array('interval' => 15));
+		echo $this->Form->input('start');
+		echo $this->Form->input('end');
 		echo $this->Form->input('comment');
 	?>
 	</fieldset>
@@ -25,5 +25,7 @@
 		<li><?php echo $this->Html->link(__('New Absentee', true), array('controller' => 'users', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Schools', true), array('controller' => 'schools', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New School', true), array('controller' => 'schools', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Applications', true), array('controller' => 'applications', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Application', true), array('controller' => 'applications', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

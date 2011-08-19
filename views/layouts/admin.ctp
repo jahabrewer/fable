@@ -15,7 +15,7 @@
 					$user['User']['id']
 				)
 			);
-			echo ' | Substitute | ';
+			echo ' | Admin | ';
 			echo $this->Html->link(
 				'Logout',
 				array(

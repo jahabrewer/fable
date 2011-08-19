@@ -1,10 +1,11 @@
 <div class="schools form">
 <?php echo $this->Form->create('School');?>
 	<fieldset>
-		<legend><?php __('Admin Add School'); ?></legend>
+		<legend><?php __('Add School'); ?></legend>
 	<?php
 		echo $this->Form->input('name');
 		echo $this->Form->input('street_address');
+		echo $this->Form->input('Substitute');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

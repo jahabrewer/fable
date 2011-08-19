@@ -38,78 +38,12 @@ class AbsencesController extends AppController {
 	}
 
 	function add() {
-		if (!empty($this->data)) {
-			$this->Absence->create();
-			if ($this->Absence->save($this->data)) {
-				$this->Session->setFlash(__('The absence has been saved', true));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The absence could not be saved. Please, try again.', true));
-			}
-		}
-
-		// set default school to user's school
-		$user = $this->Session->read('User');
-		$this->data['Absence']['school_id'] = $user['User']['school_id'];
-
-		$absentees = $this->Absence->Absentee->find('list');
-		$fulfillers = $this->Absence->Fulfiller->find('list');
-		$schools = $this->Absence->School->find('list');
-		$this->set(compact('absentees', 'fulfillers', 'schools'));
 	}
 
 	function edit($id = null) {
-		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid absence', true));
-			$this->redirect(array('action' => 'index'));
-		}
-
-		// check for ownership
-		$user = $this->Session->read('User');
-		if (!$this->Absence->isAbsenceOwnedByUser($id, $user['User']['id'])) {
-			$this->Session->setFlash('You do not have permission to edit that absence');
-			$this->redirect(array('action' => 'index'));
-		}
-
-		if (!empty($this->data)) {
-			if ($this->Absence->save($this->data)) {
-				$this->Session->setFlash(__('The absence has been saved', true));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The absence could not be saved. Please, try again.', true));
-			}
-		}
-		if (empty($this->data)) {
-			$this->data = $this->Absence->read(null, $id);
-		}
-		$absentees = $this->Absence->Absentee->find('list');
-		$fulfillers = $this->Absence->Fulfiller->find('list');
-		$schools = $this->Absence->School->find('list');
-		$this->set(compact('absentees', 'fulfillers', 'schools'));
 	}
 
 	function delete($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for absence', true));
-			$this->redirect(array('action'=>'index'));
-		}
-		// check for ownership
-		$user = $this->Session->read('User');
-		if (!$this->Absence->isAbsenceOwnedByUser($id, $user['User']['id'])) {
-			$this->Session->setFlash('You do not have permission to delete that absence');
-			$this->redirect(array('action'=>'index'));
-		}
-
-		if ($this->Absence->delete($id)) {
-			$this->Session->setFlash(__('Absence deleted', true));
-			$this->redirect(array('action'=>'index'));
-		}
-		$this->Session->setFlash(__('Absence was not deleted', true));
-		$this->redirect(array('action' => 'index'));
-	}
-
-	function admin_release($id = null) {
-		$this->release($id);
 	}
 
 	function release($id = null) {
@@ -137,18 +71,16 @@ class AbsencesController extends AppController {
 	}
 
 	function admin_index() {
+		$this->layout = 'admin';
 		$this->index();
 	}
 
 	function admin_view($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid absence', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Absence->recursive = 0;
-		$this->set('absence', $this->Absence->read(null, $id));
+		$this->layout = 'admin';
+		$this->view($id);
 	}
 
+	/*
 	function admin_add() {
 		if (!empty($this->data)) {
 			$this->Absence->create();
@@ -164,6 +96,7 @@ class AbsencesController extends AppController {
 		$schools = $this->Absence->School->find('list');
 		$this->set(compact('absentees', 'fulfillers', 'schools'));
 	}
+	*/
 
 	function admin_edit($id = null) {
 		if (!$id && empty($this->data)) {
@@ -200,7 +133,7 @@ class AbsencesController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
-	function apply($id = null) {
+	function substitute_apply($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid absence', true));
 			$this->redirect(array('action' => 'index'));
@@ -226,7 +159,7 @@ class AbsencesController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
-	function unapply($id = null) {
+	function substitute_unapply($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid absence', true));
 			$this->redirect(array('action' => 'index'));
@@ -308,6 +241,91 @@ class AbsencesController extends AppController {
 		// retrieve records
 		$this->set('absences', $this->paginate('Absence', $sql_filter));
 		$this->set(compact('filter'));
+	}
+
+	function teacher_index() {
+		$this->layout = 'teacher';
+		$this->index();
+	}
+
+	function teacher_add() {
+		$this->layout = 'teacher';
+		if (!empty($this->data)) {
+			$this->Absence->create();
+			if ($this->Absence->save($this->data)) {
+				$this->Session->setFlash(__('The absence has been saved', true));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The absence could not be saved. Please, try again.', true));
+			}
+		}
+
+		// set default school to user's school
+		$user = $this->Session->read('User');
+		$this->data['Absence']['school_id'] = $user['User']['school_id'];
+
+		// set absentee to self
+		$this->data['Absence']['absentee_id'] = $user['User']['id'];
+
+		$absentees = $this->Absence->Absentee->find('list');
+		$fulfillers = $this->Absence->Fulfiller->find('list');
+		$schools = $this->Absence->School->find('list');
+		$this->set(compact('absentees', 'fulfillers', 'schools'));
+	}
+
+	function teacher_view($id = null) {
+		$this->layout = 'teacher';
+		$this->view($id);
+	}
+
+	function teacher_edit($id = null) {
+		$this->layout = 'teacher';
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid absence', true));
+			$this->redirect(array('action' => 'index'));
+		}
+
+		// check for ownership
+		$user = $this->Session->read('User');
+		if (!$this->Absence->isAbsenceOwnedByUser($id, $user['User']['id'])) {
+			$this->Session->setFlash('You do not have permission to edit that absence');
+			$this->redirect(array('action' => 'index'));
+		}
+
+		if (!empty($this->data)) {
+			if ($this->Absence->save($this->data)) {
+				$this->Session->setFlash(__('The absence has been saved', true));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The absence could not be saved. Please, try again.', true));
+			}
+		} else {
+			$this->data = $this->Absence->read(null, $id);
+		}
+		$absentees = $this->Absence->Absentee->find('list');
+		$fulfillers = $this->Absence->Fulfiller->find('list');
+		$schools = $this->Absence->School->find('list');
+		$this->set(compact('absentees', 'fulfillers', 'schools'));
+	}
+
+	function teacher_delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for absence', true));
+			$this->redirect(array('action'=>'index'));
+		}
+		// check for ownership
+		$user = $this->Session->read('User');
+		if (!$this->Absence->isAbsenceOwnedByUser($id, $user['User']['id'])) {
+			$this->Session->setFlash('You do not have permission to delete that absence');
+			$this->redirect(array('action'=>'index'));
+		}
+
+		if ($this->Absence->delete($id)) {
+			$this->Session->setFlash(__('Absence deleted', true));
+			$this->redirect(array('action'=>'index'));
+		}
+		$this->Session->setFlash(__('Absence was not deleted', true));
+		$this->redirect(array('action' => 'index'));
 	}
 
 	function _send_email_notification($options, $absence_id) {

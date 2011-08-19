@@ -1,10 +1,5 @@
 <?php require('default.head.ctp'); ?>
 <div id="header">
-	<script>
-		$(function() {
-			$(".button").button();
-		});
-	</script>
 	<h1><?php echo 'Fable'; ?></h1>
 	<?php
 		if ($this->Session->check('User')) {
@@ -16,7 +11,7 @@
 				'substitute' => false,
 				'teacher' => false,
 				'admin' => false,
-			), array('class' => 'button'));
+			));
 		}
 
 	?>

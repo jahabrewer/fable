@@ -3,12 +3,12 @@
  * Generic CSS for CakePHP
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.app.webroot.css
@@ -23,13 +23,14 @@
 
 /** General Style Info **/
 body {
-	color: #004;
+	background: #003d4c;
+	color: #fff;
 	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
 	font-size:90%;
 	margin: 0;
 }
 a {
-	color: #000;
+	color: #003d4c;
 	text-decoration: underline;
 	font-weight: bold;
 }
@@ -42,9 +43,11 @@ a img {
 }
 h1, h2, h3, h4 {
 	font-weight: normal;
+	margin-bottom:0.5em;
 }
 h1 {
 	background:#fff;
+	color: #003d4c;
 	font-size: 100%;
 }
 h2 {
@@ -69,19 +72,16 @@ ul, li {
 /** Layout **/
 #container {
 	text-align: left;
+	width: 1200px;
 }
 
 #header{
 	padding: 10px 20px;
 }
-#header a {
-	text-decoration: none;
-}
-#header a:hover {
-	text-decoration: underline;
-}
 #header h1 {
-	font-size: 30px;
+	line-height:20px;
+	background: #003d4c url('../img/cake.icon.png') no-repeat left;
+	color: #fff;
 	padding: 0px 30px;
 }
 #header h1 a {
@@ -217,6 +217,7 @@ dt {
 	font-weight: bold;
 	padding-left: 4px;
 	vertical-align: top;
+	width: 10em;
 }
 dd {
 	margin-left: 10em;
@@ -540,16 +541,10 @@ div.code-coverage-results span.result-good {
 	display: none;
 }
 
-/** Custom **/
-#title {
-	color: #666;
-	float: left;
-}
+/** Fable customizations **/
 #userbox {
 	float: right;
 }
-#navigation {
-	clear: both;
-	background-color: #fff;
-	padding: 10px;
+#title {
+	float: left;
 }

@@ -26,13 +26,10 @@
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
-		echo $this->Html->css('fable');
+		echo $this->Html->css('cake.generic');
 
 		echo $scripts_for_layout;
 	?>
 </head>
 <body>
-	<?php echo $html->script('jquery-1.6.2.min.js'); ?>
-	<?php echo $html->script('jquery-ui-1.8.14.custom.min.js'); ?>
-	<?php echo $html->css('smoothness/jquery-ui-1.8.14.custom.css'); ?>
-	<center><div id="container" style="width:1200px">
+	<div id="container">
