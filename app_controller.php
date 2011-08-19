@@ -12,7 +12,7 @@ class AppController extends Controller {
 		// require login for all pages
 		if($this->action != 'login' && is_null($user)) {
 			// set Flash and redirect to login page
-			$this->Session->setFlash('You need to be logged in for that action.','default',array('class'=>'flash_bad'));
+			$this->Session->setFlash('You must be logged in');
 			$this->redirect(array(
 				'controller' => 'users',
 				'action' => 'login',

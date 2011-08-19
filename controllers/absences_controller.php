@@ -99,6 +99,7 @@ class AbsencesController extends AppController {
 	*/
 
 	function admin_edit($id = null) {
+		$this->layout = 'admin';
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid absence', true));
 			$this->redirect(array('action' => 'index'));
