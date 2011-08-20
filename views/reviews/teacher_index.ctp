@@ -53,11 +53,5 @@
 		<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
 </div>
-<div class="actions">
-	<h3><?php __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Review', true), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Users', true), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Author', true), array('controller' => 'users', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
+<?php require 'views/common/nav.teacher.head.ctp'; ?>
+<?php require 'views/common/nav.teacher.tail.ctp'; ?>

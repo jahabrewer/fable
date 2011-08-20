@@ -244,6 +244,11 @@ class AbsencesController extends AppController {
 		$this->set(compact('filter'));
 	}
 
+	function substitute_view($id = null) {
+		$this->layout = 'substitute';
+		$this->view($id);
+	}
+
 	function teacher_index() {
 		$this->layout = 'teacher';
 		$this->index();

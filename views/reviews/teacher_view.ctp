@@ -33,14 +33,7 @@
 		</dd>
 	</dl>
 </div>
-<div class="actions">
-	<h3><?php __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Review', true), array('action' => 'edit', $review['Review']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('Delete Review', true), array('action' => 'delete', $review['Review']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $review['Review']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Reviews', true), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Review', true), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Users', true), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Author', true), array('controller' => 'users', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
+<?php require 'views/common/nav.teacher.head.ctp'; ?>
+		<li><?php echo $this->Html->link(__('Edit This Review', true), array('action' => 'edit', $review['Review']['id'])); ?> </li>
+		<li><?php echo $this->Html->link(__('Delete This Review', true), array('action' => 'delete', $review['Review']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $review['Review']['id'])); ?> </li>
+<?php require 'views/common/nav.teacher.tail.ctp'; ?>
