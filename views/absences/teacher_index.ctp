@@ -1,5 +1,5 @@
 <div class="absences index">
-	<h2><?php __('Absences');?></h2>
+	<h2><?php __($type . ' Absences');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
@@ -56,4 +56,8 @@
 	</div>
 </div>
 <?php require 'views/common/nav.teacher.head.ctp'; ?>
+	<li><?php echo $this->Html->link('Show Available', array('filter' => 'available')); ?></li>
+	<li><?php echo $this->Html->link('Show Expired', array('filter' => 'expired')); ?></li>
+	<li><?php echo $this->Html->link('Show Fulfilled', array('filter' => 'fulfilled')); ?></li>
+	<li><?php echo $this->Html->link('Show All', array('filter' => 'all')); ?></li>
 <?php require 'views/common/nav.teacher.tail.ctp'; ?>

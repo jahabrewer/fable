@@ -58,4 +58,8 @@
 	</div>
 </div>
 <?php require 'views/common/nav.substitute.head.ctp'; ?>
+	<li><?php echo $this->Html->link('Show Available', array('filter' => 'available')); ?></li>
+	<li><?php echo $this->Html->link('Show Expired', array('filter' => 'expired')); ?></li>
+	<li><?php echo $this->Html->link('Show Fulfilled', array('filter' => 'fulfilled')); ?></li>
+	<li><?php echo $this->Html->link('Show All', array('filter' => 'all')); ?></li>
 <?php require 'views/common/nav.substitute.tail.ctp'; ?>

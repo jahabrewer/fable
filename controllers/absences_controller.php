@@ -6,26 +6,37 @@ class AbsencesController extends AppController {
 	var $components = array('Email', 'RequestHandler');
 
 	function index() {
+		$type = 'null';
 		if (isset($this->params['named']['filter'])) {
 			$filter = $this->params['named']['filter'];
 			if ($filter == 'expired') {
 				$this->paginate = array(
 					'conditions' => array('Absence.start <= NOW()')
 				);
+				$type = 'Expired';
 			} elseif ($filter == 'fulfilled') {
 				$this->paginate = array(
 					'conditions' => array('Absence.fulfiller_id IS NOT NULL')
 				);
+				$type = 'Fulfilled';
+			} elseif ($filter == 'available') {
+				$this->paginate = array(
+					'conditions' => array('Absence.start > NOW() AND Absence.fulfiller_id IS NULL')
+				);
+				$type = 'Available';
 			} elseif ($filter == 'all') {
 				$this->paginate = array();
+				$type = 'All';
 			}
 		} else {
 			$this->paginate = array(
 				'conditions' => array('Absence.start > NOW() AND Absence.fulfiller_id IS NULL')
 			);
+			$type = 'Available';
 		}
 		$this->Absence->recursive = 1;
-		$this->set('absences', $this->paginate());
+		$absences = $this->paginate();
+		$this->set(compact('absences', 'type'));
 	}
 
 	function view($id = null) {
@@ -190,25 +201,7 @@ class AbsencesController extends AppController {
 
 	function substitute_index($filter = null) {
 		$this->layout = 'substitute';
-		$this->Absence->recursive = 1;
-
-		if (empty($filter)) $filter = 'available';
-		// set appropriate where clause
-		if ($filter == 'available') {
-			$sql_filter = 'Absence.start > NOW() AND Absence.fulfiller_id IS NULL';
-		} else if ($filter == 'expired') {
-			$sql_filter = 'Absence.start <= NOW()';
-		} else if ($filter == 'fulfilled') {
-			$sql_filter = 'Absence.fulfiller_id IS NOT NULL';
-		} else if ($filter == 'all') {
-			$sql_filter = '';
-		} else {
-			$sql_filter = '';
-		}
-
-		// retrieve records
-		$this->set('absences', $this->paginate('Absence', $sql_filter));
-		$this->set(compact('filter'));
+		$this->index();
 	}
 
 	function substitute_view($id = null) {
