@@ -62,9 +62,7 @@
 	<?php if (!empty($absence['Application'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
-		<th><?php __('Id'); ?></th>
-		<th><?php __('User Id'); ?></th>
-		<th><?php __('Absence Id'); ?></th>
+		<th><?php __('Applicant'); ?></th>
 		<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -76,13 +74,9 @@
 			}
 		?>
 		<tr<?php echo $class;?>>
-			<td><?php echo $application['id'];?></td>
-			<td><?php echo $application['user_id'];?></td>
-			<td><?php echo $application['absence_id'];?></td>
+			<td><?php echo $this->Html->link($application['User']['username'], array('controller' => 'users', 'action' => 'view', $application['user_id'])); ?></td>
 			<td class="actions">
-				<?php echo $this->Html->link(__('View', true), array('controller' => 'applications', 'action' => 'view', $application['id'])); ?>
-				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'applications', 'action' => 'edit', $application['id'])); ?>
-				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'applications', 'action' => 'delete', $application['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $application['id'])); ?>
+				<?php echo $this->Html->link(__('Accept', true), array('controller' => 'applications', 'action' => 'accept', $application['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>

@@ -9,9 +9,7 @@
 			<th><?php echo $this->Paginator->sort('room');?></th>
 			<th><?php echo $this->Paginator->sort('start');?></th>
 			<th><?php echo $this->Paginator->sort('end');?></th>
-			<th><?php echo $this->Paginator->sort('comment');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
-			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -36,13 +34,9 @@
 		<td><?php echo $absence['Absence']['room']; ?>&nbsp;</td>
 		<td><?php echo $absence['Absence']['start']; ?>&nbsp;</td>
 		<td><?php echo $absence['Absence']['end']; ?>&nbsp;</td>
-		<td><?php echo $absence['Absence']['comment']; ?>&nbsp;</td>
 		<td><?php echo $absence['Absence']['created']; ?>&nbsp;</td>
-		<td><?php echo $absence['Absence']['modified']; ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $absence['Absence']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $absence['Absence']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $absence['Absence']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $absence['Absence']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
