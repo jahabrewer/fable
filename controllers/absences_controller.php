@@ -188,39 +188,6 @@ class AbsencesController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
-	function accept($absence_id, $substitute_id) {
-		if (!$absence_id || !$substitute_id) {
-			$this->Session->setFlash(__('Invalid absence or substitute', true));
-			$this->redirect(array('action' => 'index'));
-		}
-
-		// check for ownership
-		$user = $this->Session->read('User');
-		$absence = $this->Absence->read(array('id', 'absentee_id', 'fulfiller_id'), $absence_id);
-		if (!$this->Absence->isAbsenceOwnedByUser($absence_id, $user['User']['id'])) {
-			$this->Session->setFlash('You do not have permission to edit that absence');
-			$this->redirect(array('action' => 'index'));
-		}
-
-		// did this sub actually submit an application?
-		$tmp = $this->Absence->Application->findApplicationsByAbsenceAndUser($absence_id, $substitute_id);
-		if (empty($tmp)) {
-			$this->Session->setFlash('That user did not apply for this absence');
-			$this->redirect(array('action' => 'index'));
-		}
-
-		// give this sub the absence and clear the applications
-		$absence['Absence']['fulfiller_id'] = $substitute_id;
-		if ($this->Absence->save($absence)) {
-			$this->Absence->Application->deleteAllApplicationsByAbsence($absence_id);
-			$this->Session->setFlash('Substitute accepted');
-			$this->redirect(array('action' => 'view', $absence_id));
-		} else {
-			$this->Session->setFlash('Substitute accepted');
-			$this->redirect(array('action' => 'index'));
-		}
-	}
-
 	function substitute_index($filter = null) {
 		$this->layout = 'substitute';
 		$this->Absence->recursive = 1;
