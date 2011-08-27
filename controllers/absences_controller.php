@@ -52,7 +52,10 @@ class AbsencesController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		$this->Absence->recursive = 2;
-		$this->set('absence', $this->Absence->read(null, $id));
+		$absence = $this->Absence->read(null, $id);
+		$user = $this->Session->read('User');
+		$self_fulfilled = $this->Absence->isAbsenceFulfilledByUser($id, $user['User']['id']);
+		$this->set(compact('absence', 'self_fulfilled'));
 	}
 
 	function add() {
@@ -64,16 +67,16 @@ class AbsencesController extends AppController {
 	function delete($id = null) {
 	}
 
-	function release($id = null) {
+	function substitute_release($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for absence', true));
 			$this->redirect(array('action'=>'index'));
 		}
+
 		// check for fulfiller_id match
 		$user = $this->Session->read('User');
 		$this->data = $this->Absence->read(null, $id);
-		if (!empty($this->data['Absence']['fulfiller_id']) &&
-			($this->data['Absence']['fulfiller_id'] == $user['User']['id'])) {
+		if ($this->Absence->isAbsenceFulfilledByUser($id, $user['User']['id'])) {
 			$this->data['Absence']['fulfiller_id'] = null;
 			if ($this->Absence->save($this->data)) {
 				$this->Session->setFlash(__('The absence has been released', true));
