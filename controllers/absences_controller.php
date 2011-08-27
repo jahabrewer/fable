@@ -7,6 +7,9 @@ class AbsencesController extends AppController {
 
 	function index() {
 		$type = 'null';
+		$user = $this->Session->read('User');
+		$user_id = $user['User']['id'];
+
 		if (isset($this->params['named']['filter'])) {
 			$filter = $this->params['named']['filter'];
 			if ($filter == 'available') {
@@ -15,8 +18,6 @@ class AbsencesController extends AppController {
 				);
 				$type = 'Available';
 			} elseif ($filter == 'my') {
-				$user = $this->Session->read('User');
-				$user_id = $user['User']['id'];
 				$this->paginate = array(
 					'conditions' => array("Absence.fulfiller_id=$user_id OR Absence.absentee_id=$user_id")
 				);
@@ -36,10 +37,18 @@ class AbsencesController extends AppController {
 				$type = 'All';
 			}
 		} else {
-			$this->paginate = array(
-				'conditions' => array('Absence.start > NOW() AND Absence.fulfiller_id IS NULL')
-			);
-			$type = 'Available';
+			// default behavior (no filter)
+			if ($this->User->isAdmin($user_id)) {
+				$this->paginate = array(
+					'conditions' => array('Absence.start > NOW() AND Absence.fulfiller_id IS NULL')
+				);
+				$type = 'Available';
+			} else {
+				$this->paginate = array(
+					'conditions' => array("Absence.fulfiller_id=$user_id OR Absence.absentee_id=$user_id")
+				);
+				$type = 'My';
+			}
 		}
 		$this->Absence->recursive = 1;
 		$absences = $this->paginate();
