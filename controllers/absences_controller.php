@@ -19,7 +19,7 @@ class AbsencesController extends AppController {
 				$type = 'Available';
 			} elseif ($filter == 'my') {
 				$this->paginate = array(
-					'conditions' => array("Absence.fulfiller_id=$user_id OR Absence.absentee_id=$user_id")
+					'conditions' => array("(Absence.fulfiller_id=$user_id OR Absence.absentee_id=$user_id) AND Absence.start > NOW()")
 				);
 				$type = 'My';
 			} elseif ($filter == 'expired') {
@@ -45,7 +45,7 @@ class AbsencesController extends AppController {
 				$type = 'Available';
 			} else {
 				$this->paginate = array(
-					'conditions' => array("Absence.fulfiller_id=$user_id OR Absence.absentee_id=$user_id")
+					'conditions' => array("(Absence.fulfiller_id=$user_id OR Absence.absentee_id=$user_id) AND Absence.start > NOW()")
 				);
 				$type = 'My';
 			}
