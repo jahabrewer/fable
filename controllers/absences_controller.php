@@ -9,7 +9,19 @@ class AbsencesController extends AppController {
 		$type = 'null';
 		if (isset($this->params['named']['filter'])) {
 			$filter = $this->params['named']['filter'];
-			if ($filter == 'expired') {
+			if ($filter == 'available') {
+				$this->paginate = array(
+					'conditions' => array('Absence.start > NOW() AND Absence.fulfiller_id IS NULL')
+				);
+				$type = 'Available';
+			} elseif ($filter == 'my') {
+				$user = $this->Session->read('User');
+				$user_id = $user['User']['id'];
+				$this->paginate = array(
+					'conditions' => array("Absence.fulfiller_id=$user_id OR Absence.absentee_id=$user_id")
+				);
+				$type = 'My';
+			} elseif ($filter == 'expired') {
 				$this->paginate = array(
 					'conditions' => array('Absence.start <= NOW()')
 				);
@@ -19,11 +31,6 @@ class AbsencesController extends AppController {
 					'conditions' => array('Absence.fulfiller_id IS NOT NULL')
 				);
 				$type = 'Fulfilled';
-			} elseif ($filter == 'available') {
-				$this->paginate = array(
-					'conditions' => array('Absence.start > NOW() AND Absence.fulfiller_id IS NULL')
-				);
-				$type = 'Available';
 			} elseif ($filter == 'all') {
 				$this->paginate = array();
 				$type = 'All';
