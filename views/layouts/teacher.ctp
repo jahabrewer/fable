@@ -1,7 +1,7 @@
 <?php require('default.head.ctp'); ?>
 <div id="header">
 	<div id="title">
-		<h1><?php echo 'Fable'; ?></h1>
+		<h1><?php echo $this->Html->link('Fable', array('controller' => 'absences', 'action' => 'index')); ?></h1>
 	</div>
 	<div id="userbox">
 	<?php

@@ -78,6 +78,11 @@ ul, li {
 #header{
 	padding: 10px 20px;
 }
+#header a {
+	color: white;
+}
+#header a:hover {
+}
 #header h1 {
 	font-size: 200%;
 	background: #003d4c;
@@ -543,9 +548,6 @@ div.code-coverage-results span.result-good {
 /** Fable customizations **/
 #userbox {
 	float: right;
-}
-#userbox a {
-	color: white;
 }
 #title {
 	float: left;
