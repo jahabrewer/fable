@@ -27,6 +27,9 @@
 	</title>
 	<?php
 		echo $this->Html->css('cake.generic');
+		echo $this->Html->css('smoothness/jquery-ui-1.8.16.custom.css');
+		echo $this->Html->script('jquery-1.6.2.min.js');
+		echo $this->Html->script('jquery-ui-1.8.16.custom.min.js');
 
 		echo $scripts_for_layout;
 	?>

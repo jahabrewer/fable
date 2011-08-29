@@ -557,3 +557,12 @@ div.code-coverage-results span.result-good {
 th.actions {
 	font-weight: normal;
 }
+tr.clickable td {
+	-webkit-transition: background-color .2s linear;
+	-moz-transition: background-color .2s linear;
+	transition: background-color .2s linear;
+}
+tr.clickable:hover td {
+	background: #ffcc00;
+	cursor: pointer;
+}
