@@ -1,3 +1,5 @@
+<?php $this->Html->addCrumb('Absences', $this->Html->url(array('controller' => 'absences', 'action' => 'index'))); ?>
+<?php $this->Html->addCrumb('View'); ?>
 <div class="absences view">
 <h2><?php  __('Absence');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>

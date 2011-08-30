@@ -5,6 +5,7 @@ jQuery( function($) {
 	});
 });
 </script>
+<?php $this->Html->addCrumb('Absences', $this->Html->url(array('controller' => 'absences', 'action' => 'index'))); ?>
 <div class="absences index">
 	<h2><?php __($type . ' Absences');?></h2>
 	<table cellpadding="0" cellspacing="0">

@@ -554,6 +554,16 @@ div.code-coverage-results span.result-good {
 #title {
 	float: left;
 }
+#crumbtrail {
+	font-size: 120%;
+	clear: both;
+}
+#crumbtrail a {
+	text-decoration: none;
+}
+#crumbtrail a:hover {
+	text-decoration: underline;
+}
 th.actions {
 	font-weight: normal;
 }

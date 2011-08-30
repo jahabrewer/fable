@@ -26,5 +26,8 @@
 		}
 	?>
 	</div>
+	<div id="crumbtrail">
+		<?php echo $this->Html->getCrumbs(' > ', 'Home'); ?>
+	</div>
 </div>
 <?php require('default.tail.ctp'); ?>
