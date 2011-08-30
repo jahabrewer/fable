@@ -576,3 +576,23 @@ tr.clickable:hover td {
 	background: #ffcc00;
 	cursor: pointer;
 }
+.index h2 {
+	float: left;
+}
+.add_button {
+	padding: 4px 8px;
+	background: #4e4;
+	background: -webkit-gradient(linear, left top, left bottom, from(#4e4), to(#4d4));
+	background-image: -moz-linear-gradient(top, #4e4, #4d4);
+	border:1px solid #aaac62;
+	-webkit-border-radius:8px;
+	-moz-border-radius:8px;
+	border-radius:8px;
+	min-width: 0;
+	float: right;
+}
+.add_button a {
+	color: white;
+	text-decoration:none;
+	font-size: 150%;
+}
