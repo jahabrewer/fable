@@ -1,3 +1,5 @@
+<?php $this->Html->addCrumb('Schools', $this->Html->url(array('controller' => 'schools', 'action' => 'index'))); ?>
+<?php $this->Html->addCrumb('View'); ?>
 <div class="schools view">
 <h2><?php  __('School');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
