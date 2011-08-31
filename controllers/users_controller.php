@@ -160,6 +160,7 @@ class UsersController extends AppController {
 	}
 
 	function admin_add() {
+		$this->layout = 'admin';
 		if(!empty($this->data)) {
 			// unset unrequired validation rules
 			unset($this->User->validate['username']['check_user']);
