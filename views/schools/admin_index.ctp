@@ -1,5 +1,8 @@
 <div class="schools index">
 	<h2><?php __('Schools');?></h2>
+	<div class="add_button">
+		<?php echo $this->Html->link('+ New', array('action' => 'add')); ?>
+	</div>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>

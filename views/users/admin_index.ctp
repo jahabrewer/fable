@@ -1,6 +1,9 @@
 <?php $this->Html->addCrumb('Users', $this->Html->url(array('controller' => 'users', 'action' => 'index'))); ?>
 <div class="users index">
 	<h2><?php __('Users');?></h2>
+	<div class="add_button">
+		<?php echo $this->Html->link('+ New', array('action' => 'add')); ?>
+	</div>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>

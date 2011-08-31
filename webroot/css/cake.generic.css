@@ -579,7 +579,10 @@ tr.clickable:hover td {
 .index h2 {
 	float: left;
 }
-.add_button {
+.add_button a {
+	color: white;
+	text-decoration:none;
+	font-size: 150%;
 	padding: 4px 8px;
 	background: #4e4;
 	background: -webkit-gradient(linear, left top, left bottom, from(#4e4), to(#4d4));
@@ -591,8 +594,8 @@ tr.clickable:hover td {
 	min-width: 0;
 	float: right;
 }
-.add_button a {
-	color: white;
-	text-decoration:none;
-	font-size: 150%;
+.add_button a:hover {
+	background: #4e4;
+	background: -webkit-gradient(linear, left top, left bottom, from(#4e4), to(#4d4));
+	background-image: -moz-linear-gradient(top, #2d2, #2c2);
 }
