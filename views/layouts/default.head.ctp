@@ -22,7 +22,7 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo 'Fable Absence Management:'; ?>
+		<?php echo 'Fable:'; ?>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php

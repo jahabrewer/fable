@@ -93,17 +93,14 @@ class ReviewsController extends AppController {
 	}
 
 	function admin_index() {
-		$this->layout = 'admin';
 		$this->index();
 	}
 
 	function admin_edit($id = null) {
-		$this->layout = 'admin';
 		$this->edit($id, false);
 	}
 
 	function admin_view($id = null) {
-		$this->layout = 'admin';
 		$this->view($id);
 	}
 
@@ -112,22 +109,18 @@ class ReviewsController extends AppController {
 	}
 
 	function teacher_add() {
-		$this->layout = 'teacher';
 		$this->add();
 	}
 
 	function teacher_view($id = null) {
-		$this->layout = 'teacher';
 		$this->view($id);
 	}
 
 	function teacher_index() {
-		$this->layout = 'teacher';
 		$this->index();
 	}
 
 	function teacher_edit($id = null) {
-		$this->layout = 'teacher';
 		$this->edit($id);
 	}
 

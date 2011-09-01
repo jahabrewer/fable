@@ -18,17 +18,14 @@ class SchoolsController extends AppController {
 	}
 
 	function admin_index() {
-		$this->layout = 'admin';
 		$this->index();
 	}
 
 	function admin_view($id = null) {
-		$this->layout = 'admin';
 		$this->view($id);
 	}
 
 	function admin_add() {
-		$this->layout = 'admin';
 		if (!empty($this->data)) {
 			$this->School->create();
 			if ($this->School->save($this->data)) {
@@ -41,7 +38,6 @@ class SchoolsController extends AppController {
 	}
 
 	function admin_edit($id = null) {
-		$this->layout = 'admin';
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid school', true));
 			$this->redirect(array('action' => 'index'));
@@ -73,22 +69,18 @@ class SchoolsController extends AppController {
 	}
 
 	function teacher_index() {
-		$this->layout = 'teacher';
 		$this->index();
 	}
 
 	function teacher_view($id = null) {
-		$this->layout = 'teacher';
 		$this->view($id);
 	}
 
 	function substitute_index() {
-		$this->layout = 'substitute';
 		$this->index();
 	}
 
 	function substitute_view($id = null) {
-		$this->layout = 'substitute';
 		$this->view($id);
 	}
 }

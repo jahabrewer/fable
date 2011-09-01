@@ -101,12 +101,10 @@ class AbsencesController extends AppController {
 	}
 
 	function admin_index() {
-		$this->layout = 'admin';
 		$this->index();
 	}
 
 	function admin_view($id = null) {
-		$this->layout = 'admin';
 		$this->view($id);
 	}
 
@@ -129,7 +127,6 @@ class AbsencesController extends AppController {
 	*/
 
 	function admin_edit($id = null) {
-		$this->layout = 'admin';
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid absence', true));
 			$this->redirect(array('action' => 'index'));
@@ -219,22 +216,18 @@ class AbsencesController extends AppController {
 	}
 
 	function substitute_index($filter = null) {
-		$this->layout = 'substitute';
 		$this->index();
 	}
 
 	function substitute_view($id = null) {
-		$this->layout = 'substitute';
 		$this->view($id);
 	}
 
 	function teacher_index() {
-		$this->layout = 'teacher';
 		$this->index();
 	}
 
 	function teacher_add() {
-		$this->layout = 'teacher';
 		if (!empty($this->data)) {
 			$this->Absence->create();
 			if ($this->Absence->save($this->data)) {
@@ -259,12 +252,10 @@ class AbsencesController extends AppController {
 	}
 
 	function teacher_view($id = null) {
-		$this->layout = 'teacher';
 		$this->view($id);
 	}
 
 	function teacher_edit($id = null) {
-		$this->layout = 'teacher';
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid absence', true));
 			$this->redirect(array('action' => 'index'));

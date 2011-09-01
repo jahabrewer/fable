@@ -88,7 +88,6 @@ class UsersController extends AppController {
 	}
 
 	function admin_view($id = null) {
-		$this->layout = 'admin';
 		$this->view($id);
 	}
 
@@ -155,12 +154,10 @@ class UsersController extends AppController {
 	}
 
 	function admin_index() {
-		$this->layout = 'admin';
 		$this->index();
 	}
 
 	function admin_add() {
-		$this->layout = 'admin';
 		if(!empty($this->data)) {
 			// unset unrequired validation rules
 			unset($this->User->validate['username']['check_user']);
@@ -182,7 +179,6 @@ class UsersController extends AppController {
 	}
 
 	function admin_edit($id = null) {
-		$this->layout = 'admin';
 		$this->edit($id, false);
 		/*
 		if(!$id && empty($this->data)) {
@@ -247,12 +243,10 @@ class UsersController extends AppController {
 	}
 
 	function teacher_edit($id = null) {
-		$this->layout = 'teacher';
 		$this->edit($id);
 	}
 
 	function teacher_view($id = null) {
-		$this->layout = 'teacher';
 		$this->view($id);
 	}
 
@@ -261,12 +255,10 @@ class UsersController extends AppController {
 	}
 
 	function substitute_view($id = null) {
-		$this->layout = 'substitute';
 		$this->view($id);
 	}
 
 	function substitute_edit($id = null) {
-		$this->layout = 'substitute';
 		$this->edit($id);
 	}
 
