@@ -599,3 +599,20 @@ tr.clickable:hover td {
 	background: -webkit-gradient(linear, left top, left bottom, from(#4e4), to(#4d4));
 	background-image: -moz-linear-gradient(top, #2d2, #2c2);
 }
+.nav_blocks a {
+	color: white;
+	width: 30%;
+	display: block;
+	text-decoration:none;
+	text-align: center;
+	font-size: 200%;
+	padding: 0.5em 0.3em;
+	background: #798d95;
+	background: -webkit-gradient(linear, left top, left bottom, from(#899da5), to(#798d95));
+	background-image: -moz-linear-gradient(top, #899da5, #798d95);
+	border:1px solid #aaac62;
+	margin: 0.3em;
+	float: left;
+}
+.nav_blocks a:hover {
+	background: #b8d7e3;

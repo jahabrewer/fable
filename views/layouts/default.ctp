@@ -39,7 +39,7 @@
 	?>
 	</div>
 	<div id="crumbtrail">
-		<?php echo $this->Html->getCrumbs(' > ', 'Home'); ?>
+		<?php echo $this->Html->getCrumbs(' > '); ?>
 	</div>
 </div>
 <?php require('default.tail.ctp'); ?>

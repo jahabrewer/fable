@@ -1,3 +1,4 @@
+<?php $this->Html->addCrumb('Home', '/admin/'); ?>
 <?php $this->Html->addCrumb('Users', $this->Html->url(array('controller' => 'users', 'action' => 'index'))); ?>
 <?php $this->Html->addCrumb('Add'); ?>
 <div class="users form">

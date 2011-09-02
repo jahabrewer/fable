@@ -1,3 +1,4 @@
+<?php $this->Html->addCrumb('Home', '/admin/'); ?>
 <?php $this->Html->addCrumb('Schools', $this->Html->url(array('controller' => 'schools', 'action' => 'index'))); ?>
 <div class="schools index">
 	<h2><?php __('Schools');?></h2>

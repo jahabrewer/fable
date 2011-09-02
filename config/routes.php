@@ -31,3 +31,8 @@
  * ...and connect the rest of 'Pages' controller's urls.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+
+// Add routing to make nice URLs for the base of each prefix
+	Router::connect('/admin', array('controller' => 'pages', 'action' => 'display', 'admin_home'));
+	Router::connect('/teacher', array('controller' => 'pages', 'action' => 'display', 'teacher_home'));
+	Router::connect('/substitute', array('controller' => 'pages', 'action' => 'display', 'substitute_home'));
