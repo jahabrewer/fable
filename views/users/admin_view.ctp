@@ -2,6 +2,10 @@
 <?php $this->Html->addCrumb('Users', $this->Html->url(array('controller' => 'users', 'action' => 'index'))); ?>
 <?php $this->Html->addCrumb('View'); ?>
 <div class="users view">
+	<div class="buttons">
+		<?php echo $this->Html->link('Edit', array('action' => 'edit', $absence['Absence']['id']), array('id' => 'edit')); ?>
+		<?php echo $this->Html->link('Delete', array('action' => 'delete', $absence['Absence']['id']), array('id' => 'delete'), 'Are you sure you want to delete this absence?'); ?>
+	</div>
 <h2><?php  __('User');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>

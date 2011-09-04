@@ -57,7 +57,9 @@ h2 {
 	font-size: 190%;
 }
 h3 {
-	color: #993;
+	//color: #993;
+	//color: #798d95;
+	color: #306b81;
 	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
 	font-size: 165%;
 }
@@ -113,18 +115,32 @@ ul, li {
 }
 
 /** containers **/
-div.form,
-div.index,
-div.view {
+div.form {
+	padding:10px 2%;
+}
+div.index {
 	float:right;
 	width:76%;
 	border-left:1px solid #666;
+	padding:10px 2%;
+}
+div.view {
+	float:left;
+	//width:76%;
+	width:60%;
+	//border-left:1px solid #666;
 	padding:10px 2%;
 }
 div.actions {
 	float:left;
 	width:16%;
 	padding:10px 1.5%;
+}
+div.right-sidebar {
+	float: right;
+	width:30%;
+	padding:10px 1.5%;
+	border-left:1px solid #666;
 }
 div.actions h3 {
 	padding-top:0;
@@ -212,7 +228,7 @@ div.paging span a {
 dl {
 	line-height: 2em;
 	margin: 0em 0em;
-	width: 60%;
+	width: 100%;
 }
 dl .altrow {
 	background: #f4f4f4;
@@ -579,25 +595,43 @@ tr.clickable:hover td {
 .index h2 {
 	float: left;
 }
-.add_button a {
+div.buttons {
+	float: right;
+}
+.buttons a {
 	color: white;
 	text-decoration:none;
 	font-size: 150%;
 	padding: 4px 8px;
-	background: #4e4;
-	background: -webkit-gradient(linear, left top, left bottom, from(#4e4), to(#4d4));
-	background-image: -moz-linear-gradient(top, #4e4, #4d4);
-	border:1px solid #aaac62;
+	border:1px solid #306b81;
 	-webkit-border-radius:8px;
 	-moz-border-radius:8px;
 	border-radius:8px;
 	min-width: 0;
-	float: right;
 }
-.add_button a:hover {
+#add {
 	background: #4e4;
 	background: -webkit-gradient(linear, left top, left bottom, from(#4e4), to(#4d4));
-	background-image: -moz-linear-gradient(top, #2d2, #2c2);
+	background-image: -moz-linear-gradient(top, #4e4, #4d4);
+}
+#add:hover {
+	color: #efe;
+}
+#edit {
+	background: #798d95;
+	background: -webkit-gradient(linear, left top, left bottom, from(#798d95), to(#697d85));
+	background-image: -moz-linear-gradient(top, #798d95, #697d85);
+}
+#edit:hover {
+	color: #eef;
+}
+#delete {
+	background: #bfa09a;
+	background: -webkit-gradient(linear, left top, left bottom, from(#bfa09a), to(#af908a));
+	background-image: -moz-linear-gradient(top, #bfa09a, #af908a);
+}
+#delete:hover {
+	color: #fee;
 }
 .nav_blocks a {
 	color: white;

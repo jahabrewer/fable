@@ -212,7 +212,7 @@ class TimeHelper extends AppHelper {
 		} else {
 			$date = time();
 		}
-		$format = $this->convertSpecifiers('%a, %b %eS %Y, %l:%M %P', $date);
+		$format = $this->convertSpecifiers('%a, %e %b %Y, %l:%M %P', $date);
 		return strftime($format, $date);
 	}
 

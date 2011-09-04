@@ -2,8 +2,8 @@
 <?php $this->Html->addCrumb('Schools', $this->Html->url(array('controller' => 'schools', 'action' => 'index'))); ?>
 <div class="schools index">
 	<h2><?php __('Schools');?></h2>
-	<div class="add_button">
-		<?php echo $this->Html->link('+ New', array('action' => 'add')); ?>
+	<div class="buttons">
+		<?php echo $this->Html->link('+ New', array('action' => 'add'), array('id' => 'add')); ?>
 	</div>
 	<table cellpadding="0" cellspacing="0">
 	<tr>

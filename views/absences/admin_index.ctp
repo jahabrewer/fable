@@ -15,10 +15,8 @@ jQuery( function($) {
 			<th><?php echo $this->Paginator->sort('absentee_id');?></th>
 			<th><?php echo $this->Paginator->sort('fulfiller_id');?></th>
 			<th><?php echo $this->Paginator->sort('school_id');?></th>
-			<th><?php echo $this->Paginator->sort('room');?></th>
 			<th><?php echo $this->Paginator->sort('start');?></th>
 			<th><?php echo $this->Paginator->sort('end');?></th>
-			<th><?php echo $this->Paginator->sort('created');?></th>
 	</tr>
 	<?php
 	$i = 0;
@@ -33,10 +31,8 @@ jQuery( function($) {
 		<td><?php echo $absence['Absentee']['username']; ?>&nbsp;</td>
 		<td><?php echo $absence['Fulfiller']['username']; ?>&nbsp;</td>
 		<td><?php echo $absence['School']['name']; ?>&nbsp;</td>
-		<td><?php echo $absence['Absence']['room']; ?>&nbsp;</td>
-		<td><?php echo $absence['Absence']['start']; ?>&nbsp;</td>
-		<td><?php echo $absence['Absence']['end']; ?>&nbsp;</td>
-		<td><?php echo $absence['Absence']['created']; ?>&nbsp;</td>
+		<td><?php echo $this->Time->nice($absence['Absence']['start']); ?>&nbsp;</td>
+		<td><?php echo $this->Time->nice($absence['Absence']['end']); ?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 	</table>
