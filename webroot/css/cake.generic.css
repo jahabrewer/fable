@@ -229,6 +229,7 @@ dl {
 	line-height: 2em;
 	margin: 0em 0em;
 	width: 100%;
+	margin-bottom: 0.7em;
 }
 dl .altrow {
 	background: #f4f4f4;
@@ -589,7 +590,7 @@ tr.clickable td {
 	transition: background-color .2s linear;
 }
 tr.clickable:hover td {
-	background: #ffcc00;
+	background: #ffce40;
 	cursor: pointer;
 }
 .index h2 {

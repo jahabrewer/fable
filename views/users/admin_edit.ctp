@@ -16,11 +16,10 @@
 		echo $this->Form->input('primary_phone');
 		echo $this->Form->input('secondary_phone');
 		echo $this->Form->input('email_address');
-		echo $this->Form->input('education_level_id', array('empty' => 'Not specified'));
-		echo $this->Form->input('certification');
-		echo $this->Form->input('absence_change_notify');
-		echo $this->Form->input('school_id', array('empty' => 'None'));
-		echo $this->Form->input('PreferredSchool');
+		if ($show_education_level) echo $this->Form->input('education_level_id', array('empty' => 'Not specified'));
+		if ($show_certification) echo $this->Form->input('certification');
+		if ($show_school) echo $this->Form->input('school_id', array('empty' => 'None'));
+		if ($show_preferred_schools) echo $this->Form->input('PreferredSchool');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

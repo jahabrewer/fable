@@ -96,10 +96,28 @@ class UsersController extends AppController {
 			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect(array('action' => 'index'));
 		}
+
 		$this->User->recursive = 2;
 		$user = $this->User->read(null, $id);
-		$schools = $this->User->School->find('list');
-		$this->set(compact('user', 'schools'));
+
+		// determine what to show and not show in views
+		$show_school = false;
+		$show_preferred_schools = false;
+		$show_education_level = false;
+		$show_certification = false;
+		$show_absences_made = false;
+		$show_absences_filled = false;
+		if ($this->User->isAdmin($id)) {
+		} else if ($this->User->isTeacher($id)) {
+			$show_school = true;
+			$show_absences_made = true;
+		} else if ($this->User->isSubstitute($id)) {
+			$show_preferred_schools = true;
+			$show_education_level = true;
+			$show_certification = true;
+			$show_absences_filled = true;
+		}
+		$this->set(compact('user', 'show_school', 'show_preferred_schools', 'show_education_level', 'show_certification', 'show_absences_made', 'show_absences_filled'));
 	}
 
 	function edit($id, $check_ownership = true) {
@@ -143,6 +161,20 @@ class UsersController extends AppController {
 			// remove Password
 			$this->data['User']['password'] = '';
 		}
+
+		// determine what to show and not show in the view
+		$show_school = false;
+		$show_preferred_schools = false;
+		$show_education_level = false;
+		$show_certification = false;
+		if ($this->User->isAdmin($id)) {
+		} else if ($this->User->isTeacher($id)) {
+			$show_school = true;
+		} else if ($this->User->isSubstitute($id)) {
+			$show_preferred_schools = true;
+			$show_education_level = true;
+			$show_certification = true;
+		}
 		
 		$schools = $this->User->School->find('list');
 		$userTypes = $this->User->UserType->find('list');
@@ -150,14 +182,14 @@ class UsersController extends AppController {
 		$preferredSchools = $schools;
 		$selectedSchools = array();
 		if (!empty($this->data['PreferredSchool'])) foreach ($this->data['PreferredSchool'] as $school) array_push($selectedSchools, $school['id']);
-		$this->set(compact('schools', 'userTypes', 'educationLevels', 'preferredSchools', 'selectedSchools'));
+		$this->set(compact('schools', 'userTypes', 'educationLevels', 'preferredSchools', 'selectedSchools', 'show_school', 'show_preferred_schools', 'show_education_level', 'show_certification'));
 	}
 
 	function admin_index() {
 		$this->index();
 	}
 
-	function admin_add() {
+	function admin_add($user_type = null) {
 		if(!empty($this->data)) {
 			// unset unrequired validation rules
 			unset($this->User->validate['username']['check_user']);
@@ -170,12 +202,31 @@ class UsersController extends AppController {
 				$this->Session->setFlash('The user could not be saved. Please, try again.');
 			}
 		}
+
+		// determine what to show and not show in the view
+		$show_school = false;
+		$show_preferred_schools = false;
+		$show_education_level = false;
+		$show_certification = false;
+		if ($user_type == 'admin') {
+			$this->data['User']['user_type_id'] = 1;
+		} else if ($user_type == 'teacher') {
+			$this->data['User']['user_type_id'] = 2;
+
+			$show_school = true;
+			$this->set('schools', $this->User->School->find('list'));
+		} else if ($user_type == 'substitute') {
+			$this->data['User']['user_type_id'] = 3;
+
+			$show_preferred_schools = true;
+			$this->set('preferredSchools', $this->User->School->find('list'));
+			$show_education_level = true;
+			$this->set('educationLevels', $this->User->EducationLevel->find('list'));
+			$show_certification = true;
+		}
+
 		$userTypes = $this->User->UserType->find('list');
-		$schools = $this->User->School->find('list');
-		$educationLevels = $this->User->EducationLevel->find('list');
-		$preferredSchools = $schools;
-		$legend = 'Add User';
-		$this->set(compact('legend', 'schools', 'userTypes', 'educationLevels', 'preferredSchools'));
+		$this->set(compact('userTypes', 'show_school', 'show_preferred_schools', 'show_education_level', 'show_certification'));
 	}
 
 	function admin_edit($id = null) {

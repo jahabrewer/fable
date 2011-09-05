@@ -1,23 +1,47 @@
+<script>
+jQuery( function($) {
+	$('table tr[data-href]').addClass('clickable').click( function() {
+		window.location = $(this).attr('data-href');
+	});
+	$( '#dialog-adduser' ).dialog({
+		autoOpen: false,
+		resizable:false,
+		width: 400,
+		modal: true,
+		buttons: {
+			"Admin": function() {
+				window.location = "/admin/users/add/admin";
+			},
+			"Teacher": function() {
+				window.location = "/admin/users/add/teacher";
+			},
+			"Substitute": function() {
+				window.location = "/admin/users/add/substitute";
+			}
+		}
+	});
+	$('#add').click( function() {
+		$('#dialog-adduser').dialog('open');
+		return false;
+	});
+});
+</script>
 <?php $this->Html->addCrumb('Home', '/admin/'); ?>
 <?php $this->Html->addCrumb('Users', $this->Html->url(array('controller' => 'users', 'action' => 'index'))); ?>
 <div class="users index">
 	<h2><?php __('Users');?></h2>
 	<div class="buttons">
-		<?php echo $this->Html->link('+ New', array('action' => 'add'), array('id' => 'add')); ?>
+		<?php echo $this->Html->link('+ New', '#', array('id' => 'add')); ?>
+		<!--<button id="add">+ Add</button>-->
 	</div>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('username');?></th>
 			<th><?php echo $this->Paginator->sort('user_type_id');?></th>
 			<th><?php echo $this->Paginator->sort('first_name');?></th>
 			<th><?php echo $this->Paginator->sort('middle_initial');?></th>
 			<th><?php echo $this->Paginator->sort('last_name');?></th>
-			<th><?php echo $this->Paginator->sort('last_login');?></th>
 			<th><?php echo $this->Paginator->sort('school_id');?></th>
-			<th><?php echo $this->Paginator->sort('created');?></th>
-			<th><?php echo $this->Paginator->sort('modified');?></th>
-			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
 	$i = 0;
@@ -27,26 +51,13 @@
 			$class = ' class="altrow"';
 		}
 	?>
-	<tr<?php echo $class;?>>
-		<td><?php echo $user['User']['id']; ?>&nbsp;</td>
+	<tr data-href=<?php echo $this->Html->url(array('action' => 'view', $user['User']['id'])); ?> <?php echo $class;?>>
 		<td><?php echo $user['User']['username']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($user['UserType']['name'], array('controller' => 'user_types', 'action' => 'view', $user['UserType']['id'])); ?>
-		</td>
+		<td><?php echo $user['UserType']['name']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['first_name']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['middle_initial']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['last_name']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['last_login']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($user['School']['name'], array('controller' => 'schools', 'action' => 'view', $user['School']['id'])); ?>
-		</td>
-		<td><?php echo $user['User']['created']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['modified']; ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $user['User']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $user['User']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $user['User']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $user['User']['id'])); ?>
-		</td>
+		<td><?php echo $user['School']['name']; ?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 	</table>
@@ -63,6 +74,9 @@
  |
 		<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
+</div>
+<div id="dialog-adduser" title="Add User">
+	<p>Select a user type</p>
 </div>
 <?php require 'views/common/nav.admin.head.ctp'; ?>
 <?php require 'views/common/nav.admin.tail.ctp'; ?>
