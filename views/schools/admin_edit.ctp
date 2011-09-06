@@ -14,5 +14,4 @@
 <?php echo $this->Form->end(__('Submit', true));?>
 </div>
 <?php require 'views/common/nav.admin.head.ctp'; ?>
-		<li><?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $this->Form->value('School.id')), null, sprintf(__('Are you sure you want to delete # %s?', true), $this->Form->value('School.id'))); ?></li>
 <?php require 'views/common/nav.admin.tail.ctp'; ?>
