@@ -9,10 +9,12 @@ jQuery( function($) {
 <?php $this->Html->addCrumb('Absences', $this->Html->url(array('controller' => 'absences', 'action' => 'index'))); ?>
 <?php $this->Html->addCrumb('View'); ?>
 <div class="absences view">
-	<div class="buttons">
-		<?php echo $this->Html->link('Edit', array('action' => 'edit', $absence['Absence']['id']), array('id' => 'edit')); ?>
-		<?php echo $this->Html->link('Delete', array('action' => 'delete', $absence['Absence']['id']), array('id' => 'delete'), 'Are you sure you want to delete this absence?'); ?>
-	</div>
+	<?php if ($self_owned): ?>
+		<div class="buttons">
+			<?php echo $this->Html->link('Edit', array('action' => 'edit', $absence['Absence']['id']), array('id' => 'edit')); ?>
+			<?php echo $this->Html->link('Delete', array('action' => 'delete', $absence['Absence']['id']), array('id' => 'delete'), 'Are you sure you want to delete this absence?'); ?>
+		</div>
+	<?php endif; ?>
 <h2><?php  __('Absence');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Absentee'); ?></dt>
@@ -57,6 +59,7 @@ jQuery( function($) {
 		</dd>
 	</dl>
 </div>
+<?php if ($self_owned): ?>
 <div class="right-sidebar">
 	<h3><?php __('Applications');?></h3>
 	<?php if (!empty($absence['Application'])):?>
@@ -77,5 +80,6 @@ jQuery( function($) {
 		</tr>
 	<?php endforeach; ?>
 	</table>
-<?php endif; ?>
+	<?php endif; ?>
 </div>
+<?php endif; ?>

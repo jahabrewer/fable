@@ -64,7 +64,8 @@ class AbsencesController extends AppController {
 		$absence = $this->Absence->read(null, $id);
 		$user = $this->Session->read('User');
 		$self_fulfilled = $this->Absence->isAbsenceFulfilledByUser($id, $user['User']['id']);
-		$this->set(compact('absence', 'self_fulfilled'));
+		$self_owned = $this->Absence->isAbsenceOwnedByUser($id, $user['User']['id']);
+		$this->set(compact('absence', 'self_fulfilled', 'self_owned'));
 	}
 
 	function add() {
