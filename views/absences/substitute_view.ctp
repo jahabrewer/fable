@@ -53,6 +53,4 @@
 		</dd>
 	</dl>
 </div>
-<?php require 'views/common/nav.substitute.head.ctp'; ?>
 		<li><?php if ($self_fulfilled) echo $this->Html->link(__('Release This Absence', true), array('action' => 'release', $absence['Absence']['id'])); ?> </li>
-<?php require 'views/common/nav.substitute.tail.ctp'; ?>

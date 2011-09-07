@@ -25,5 +25,3 @@
 		</dd>
 	</dl>
 </div>
-<?php require 'views/common/nav.admin.head.ctp'; ?>
-<?php require 'views/common/nav.admin.tail.ctp'; ?>

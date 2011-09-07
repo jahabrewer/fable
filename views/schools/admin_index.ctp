@@ -45,5 +45,3 @@ jQuery( function($) {
 		<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
 </div>
-<?php require 'views/common/nav.admin.head.ctp'; ?>
-<?php require 'views/common/nav.admin.tail.ctp'; ?>

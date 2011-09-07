@@ -78,5 +78,3 @@ jQuery( function($) {
 <div id="dialog-adduser" title="Add User">
 	<p>Select a user type</p>
 </div>
-<?php require 'views/common/nav.admin.head.ctp'; ?>
-<?php require 'views/common/nav.admin.tail.ctp'; ?>

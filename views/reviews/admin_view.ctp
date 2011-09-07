@@ -38,7 +38,5 @@
 		</dd>
 	</dl>
 </div>
-<?php require 'views/common/nav.admin.head.ctp'; ?>
 		<li><?php echo $this->Html->link(__('Edit This Review', true), array('action' => 'edit', $review['Review']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('Delete This Review', true), array('action' => 'delete', $review['Review']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $review['Review']['id'])); ?> </li>
-<?php require 'views/common/nav.admin.tail.ctp'; ?>

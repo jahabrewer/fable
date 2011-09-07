@@ -12,5 +12,3 @@
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>
 </div>
-<?php require 'views/common/nav.admin.head.ctp'; ?>
-<?php require 'views/common/nav.admin.tail.ctp'; ?>
