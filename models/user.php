@@ -120,6 +120,7 @@ class User extends AppModel {
 	}
 
 	function isSubstitute($user) {
+		return $user['user_type_id'];
 		if (isset($user['user_type_id']) && ($user['user_type_id'] == 3)) {
 			return true;
 		}

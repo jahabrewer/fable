@@ -107,11 +107,11 @@ class UsersController extends AppController {
 		$show_certification = false;
 		$show_absences_made = false;
 		$show_absences_filled = false;
-		if ($this->User->isAdmin($id)) {
-		} else if ($this->User->isTeacher($id)) {
+		if ($this->User->isAdmin($user['User'])) {
+		} else if ($this->User->isTeacher($user['User'])) {
 			$show_school = true;
 			$show_absences_made = true;
-		} else if ($this->User->isSubstitute($id)) {
+		} else if ($this->User->isSubstitute($user['User'])) {
 			$show_preferred_schools = true;
 			$show_education_level = true;
 			$show_certification = true;
@@ -299,6 +299,12 @@ class UsersController extends AppController {
 
 	function teacher_view($id = null) {
 		$this->view($id);
+
+		// show the buttons?
+		$self = $this->Session->read('User');
+		$show_edit = $self['User']['id'] == $id;
+		$show_delete = false;
+		$this->set(compact('show_edit', 'show_delete'));
 	}
 
 	function teacher_logout() {
@@ -307,6 +313,12 @@ class UsersController extends AppController {
 
 	function substitute_view($id = null) {
 		$this->view($id);
+
+		// show the buttons?
+		$self = $this->Session->read('User');
+		$show_edit = $self['User']['id'] == $id;
+		$show_delete = false;
+		$this->set(compact('show_edit', 'show_delete'));
 	}
 
 	function substitute_edit($id = null) {
