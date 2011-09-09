@@ -1,3 +1,12 @@
+<script>
+jQuery( function($) {
+	$('table tr[data-href]').addClass('clickable').click( function() {
+		window.location = $(this).attr('data-href');
+	});
+});
+</script>
+<?php $this->Html->addCrumb('Home', '/substitute/'); ?>
+<?php $this->Html->addCrumb('Absences', $this->Html->url(array('controller' => 'absences', 'action' => 'index'))); ?>
 <div class="absences index">
 	<h2><?php __($type . ' Absences');?></h2>
 	<table cellpadding="0" cellspacing="0">
@@ -6,11 +15,8 @@
 			<th><?php echo $this->Paginator->sort('absentee_id');?></th>
 			<th><?php echo $this->Paginator->sort('fulfiller_id');?></th>
 			<th><?php echo $this->Paginator->sort('school_id');?></th>
-			<th><?php echo $this->Paginator->sort('room');?></th>
 			<th><?php echo $this->Paginator->sort('start');?></th>
 			<th><?php echo $this->Paginator->sort('end');?></th>
-			<th><?php echo $this->Paginator->sort('created');?></th>
-			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
 	$i = 0;
@@ -20,26 +26,13 @@
 			$class = ' class="altrow"';
 		}
 	?>
-	<tr<?php echo $class;?>>
+	<tr data-href=<?php echo $this->Html->url(array('action' => 'view', $absence['Absence']['id'])); echo $class; ?>>
 		<td><?php echo $absence['Absence']['id']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($absence['Absentee']['username'], array('controller' => 'users', 'action' => 'view', $absence['Absentee']['id'])); ?>
-		</td>
-		<td>
-			<?php echo $this->Html->link($absence['Fulfiller']['username'], array('controller' => 'users', 'action' => 'view', $absence['Fulfiller']['id'])); ?>
-		</td>
-		<td>
-			<?php echo $this->Html->link($absence['School']['name'], array('controller' => 'schools', 'action' => 'view', $absence['School']['id'])); ?>
-		</td>
-		<td><?php echo $absence['Absence']['room']; ?>&nbsp;</td>
-		<td><?php echo $absence['Absence']['start']; ?>&nbsp;</td>
-		<td><?php echo $absence['Absence']['end']; ?>&nbsp;</td>
-		<td><?php echo $absence['Absence']['created']; ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $absence['Absence']['id'])); ?>
-			<?php echo $this->Html->link(__('Apply', true), array('action' => 'apply', $absence['Absence']['id'])); ?>
-			<?php echo $this->Html->link(__('Unapply', true), array('action' => 'unapply', $absence['Absence']['id'])); ?>
-		</td>
+		<td><?php echo $absence['Absentee']['username']; ?>&nbsp;</td>
+		<td><?php echo $absence['Fulfiller']['username']; ?>&nbsp;</td>
+		<td><?php echo $absence['School']['name']; ?>&nbsp;</td>
+		<td><?php echo $this->Time->nice($absence['Absence']['start']); ?>&nbsp;</td>
+		<td><?php echo $this->Time->nice($absence['Absence']['end']); ?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 	</table>
@@ -59,10 +52,10 @@
 </div>
 <div class="actions">
 	<ul>
-		<li><?php echo $this->Html->link('Show Available', array('filter' => 'available')); ?></li>
 		<li><?php echo $this->Html->link('Show Mine', array('filter' => 'my')); ?></li>
-		<li><?php echo $this->Html->link('Show Expired', array('filter' => 'expired')); ?></li>
+		<li><?php echo $this->Html->link('Show Available', array('filter' => 'available')); ?></li>
 		<li><?php echo $this->Html->link('Show Fulfilled', array('filter' => 'fulfilled')); ?></li>
+		<li><?php echo $this->Html->link('Show Expired', array('filter' => 'expired')); ?></li>
 		<li><?php echo $this->Html->link('Show All', array('filter' => 'all')); ?></li>
 	</ul>
 </div>

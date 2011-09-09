@@ -58,6 +58,15 @@ class Absence extends AppModel {
 		return false;
 	}
 
+	function isAbsenceFulfilled($absence_id) {
+		$absence = $this->read(array('fulfiller_id'), $absence_id);
+		if (!empty($absence['Absence']['fulfiller_id'])) {
+			return true;
+		}
+
+		return false;
+	}
+
 	function startBeforeEnd($field=array(), $compare_field) {
 		foreach($field as $key => $value) {
 			$v1 = $value;

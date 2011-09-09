@@ -62,10 +62,7 @@ class AbsencesController extends AppController {
 		}
 		$this->Absence->recursive = 2;
 		$absence = $this->Absence->read(null, $id);
-		$user = $this->Session->read('User');
-		$self_fulfilled = $this->Absence->isAbsenceFulfilledByUser($id, $user['User']['id']);
-		$self_owned = $this->Absence->isAbsenceOwnedByUser($id, $user['User']['id']);
-		$this->set(compact('absence', 'self_fulfilled', 'self_owned'));
+		$this->set(compact('absence'));
 	}
 
 	function add() {
@@ -222,6 +219,17 @@ class AbsencesController extends AppController {
 
 	function substitute_view($id = null) {
 		$this->view($id);
+
+		$user = $this->Session->read('User');
+		$application = $this->Absence->Application->find('first', array('conditions' => array('absence_id' => $id, 'user_id' => $user['User']['id'])));
+		// show apply only if user has no application and the absence
+		// isn't fulfilled
+		$show_apply = empty($application) && !$this->Absence->isAbsenceFulfilled($id);
+		// show release only if the user is the fulfiller
+		$show_release = $this->Absence->isAbsenceFulfilledByUser($id, $user['User']['id']);
+		// to notify user that she has applied for the absence
+		$show_applied_message = !empty($application);
+		$this->set(compact('self_fulfilled', 'show_apply', 'show_release', 'show_applied_message'));
 	}
 
 	function teacher_index() {
@@ -254,6 +262,9 @@ class AbsencesController extends AppController {
 
 	function teacher_view($id = null) {
 		$this->view($id);
+
+		$user = $this->Session->read('User');
+		$this->set('self_owned', $this->Absence->isAbsenceOwnedByUser($id, $user['User']['id']));
 	}
 
 	function teacher_edit($id = null) {

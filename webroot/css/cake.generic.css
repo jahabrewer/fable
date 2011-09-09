@@ -618,20 +618,20 @@ div.buttons {
 #add:hover {
 	color: #efe;
 }
-#edit {
+#edit, #apply {
 	background: #798d95;
 	background: -webkit-gradient(linear, left top, left bottom, from(#798d95), to(#697d85));
 	background-image: -moz-linear-gradient(top, #798d95, #697d85);
 }
-#edit:hover {
+#edit:hover, #apply:hover {
 	color: #eef;
 }
-#delete {
+#delete, #release {
 	background: #bfa09a;
 	background: -webkit-gradient(linear, left top, left bottom, from(#bfa09a), to(#af908a));
 	background-image: -moz-linear-gradient(top, #bfa09a, #af908a);
 }
-#delete:hover {
+#delete:hover, #release:hover {
 	color: #fee;
 }
 .nav_blocks a {

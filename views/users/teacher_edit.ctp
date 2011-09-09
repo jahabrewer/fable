@@ -1,3 +1,6 @@
+<?php $this->Html->addCrumb('Home', '/teacher/'); ?>
+<?php $this->Html->addCrumb('Users'); ?>
+<?php $this->Html->addCrumb('Edit'); ?>
 <div class="users form">
 <?php echo $this->Form->create('User');?>
 	<fieldset>
