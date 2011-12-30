@@ -1,20 +1,23 @@
-<script>
-jQuery( function($) {
-	$('table tr[data-href]').addClass('clickable').click( function() {
-		window.location = $(this).attr('data-href');
+<?php if ($show_applications): ?>
+	<script>
+	jQuery( function($) {
+		$('table tr[data-href]').addClass('clickable').click( function() {
+			window.location = $(this).attr('data-href');
+		});
 	});
-});
-</script>
-<?php $this->Html->addCrumb('Home', '/teacher/'); ?>
+	</script>
+<?php endif; ?>
+<?php $this->Html->addCrumb('Home', $this->viewVars['home_link_target']); ?>
 <?php $this->Html->addCrumb('Absences', $this->Html->url(array('controller' => 'absences', 'action' => 'index'))); ?>
 <?php $this->Html->addCrumb('View'); ?>
 <div class="absences view">
-	<?php if ($self_owned): ?>
 		<div class="buttons">
-			<?php echo $this->Html->link('Edit', array('action' => 'edit', $absence['Absence']['id']), array('id' => 'edit')); ?>
-			<?php echo $this->Html->link('Delete', array('action' => 'delete', $absence['Absence']['id']), array('id' => 'delete'), 'Are you sure you want to delete this absence?'); ?>
+		<?php if ($show_edit) echo $this->Html->link('Edit', array('action' => 'edit', $absence['Absence']['id']), array('id' => 'edit')); ?>
+		<?php if ($show_delete) echo $this->Html->link('Delete', array('action' => 'delete', $absence['Absence']['id']), array('id' => 'delete'), 'Are you sure you want to delete this absence?'); ?>
+		<?php if ($show_apply) echo $this->Html->link('Apply', array('action' => 'apply', $absence['Absence']['id']), array('id' => 'apply')); ?>
+		<?php if ($show_application_deny_mesg) echo $application_deny_mesg; ?>
+		<?php if ($show_release) echo $this->Html->link('Release', array('action' => 'release', $absence['Absence']['id']), array('id' => 'release')); ?>
 		</div>
-	<?php endif; ?>
 <h2><?php  __('Absence');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Absentee'); ?></dt>
@@ -57,9 +60,23 @@ jQuery( function($) {
 			<?php echo $absence['Absence']['id']; ?>
 			&nbsp;
 		</dd>
+		<?php if ($show_created): ?>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $this->Time->nice($absence['Absence']['created']); ?>
+			&nbsp;
+		</dd>
+		<?php endif; ?>
+		<?php if ($show_modified): ?>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Modified'); ?></dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $this->Time->nice($absence['Absence']['modified']); ?>
+			&nbsp;
+		</dd>
+		<?php endif; ?>
 	</dl>
 </div>
-<?php if ($self_owned): ?>
+<?php if ($show_applications): ?>
 <div class="right-sidebar">
 	<h3><?php __('Applications');?></h3>
 	<?php if (!empty($absence['Application'])):?>
@@ -75,7 +92,10 @@ jQuery( function($) {
 				$class = ' class="altrow"';
 			}
 		?>
-		<tr data-href=<?php echo $this->Html->url(array('controller' => 'applications', 'action' => 'accept', $application['id'])); ?> <?php echo $class;?>>
+		<?php
+			if ($allow_applicant_selection) echo "<tr data-href=" . $this->Html->url(array('controller' => 'applications', 'action' => 'accept', $application['id'])) . " $class>";
+			else echo "<tr$class>";
+		?>
 			<td><?php echo $application['User']['first_name'] . ' ' . $application['User']['last_name'];?></td>
 		</tr>
 	<?php endforeach; ?>

@@ -40,6 +40,13 @@ class Absence extends AppModel {
 		),
 	);
 
+	function isAbsenceInFuture($absence) {
+		if (strtotime($absence['start']) <= time()){
+			return false;
+		}
+		return true;
+	}
+
 	function isAbsenceOwnedByUser($absence_id, $user_id) {
 		$absence = $this->read(array('absentee_id'), $absence_id);
 		if (isset($absence['Absence']['absentee_id']) && ($absence['Absence']['absentee_id'] == $user_id)) {

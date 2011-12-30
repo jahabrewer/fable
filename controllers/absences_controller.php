@@ -65,8 +65,50 @@ class AbsencesController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		$this->Absence->recursive = 2;
+		$viewer_id = $this->viewVars['viewer_id'];
+		$viewer_is_admin = $this->viewVars['viewer_is_admin'];
+		$viewer_is_substitute = $this->viewVars['viewer_is_substitute'];
+
+		$user = $this->Session->read('User');
+
 		$absence = $this->Absence->read(null, $id);
-		$this->set(compact('absence'));
+		$application = $this->Absence->Application->find('first', array('conditions' => array('absence_id' => $id, 'user_id' => $viewer_id)));
+		$absence_is_fulfilled = !empty($absence['Absence']['fulfiller_id']);
+		$absence_is_in_future = $this->Absence->isAbsenceInFuture($absence['Absence']);
+		$viewer_is_fulfiller = /*isset($absence['Absence']['fulfiller_id']) &&*/ ($absence['Absence']['fulfiller_id'] == $viewer_id);
+		$viewer_is_absentee = isset($absence['Absence']['absentee_id']) && ($absence['Absence']['absentee_id'] == $viewer_id);
+
+		// set view vars
+		$show_edit = $viewer_is_admin || $viewer_is_absentee;
+		$show_delete = $viewer_is_admin || $viewer_is_absentee;
+		$show_created = $viewer_is_admin;
+		$show_modified = $viewer_is_admin;
+		// show apply only if user has no application and the absence
+		// isn't fulfilled
+		$show_apply = empty($application) && !$absence_is_fulfilled && $absence_is_in_future;
+		// show release only if the viewer is the fulfiller
+		$show_release = $viewer_is_fulfiller;
+		// only show applications to admins and owners
+		$show_applications = ($viewer_is_admin || $viewer_is_absentee) && $absence_is_in_future && !$absence_is_fulfilled;
+		// to notify user that she has applied for the absence
+		$show_application_deny_mesg = $viewer_is_substitute && !$show_apply;
+		if ($viewer_is_fulfiller) {
+			$application_deny_mesg = 'You are this absence\'s fulfiller';
+		} else if ($absence_is_fulfilled) {
+			$application_deny_mesg = 'This absence is already fulfilled';
+		} else if (!empty($application)) {
+			$application_deny_mesg = 'You have already applied for this absence';
+		} else if (!$absence_is_in_future) {
+			$application_deny_mesg = 'This absence has already happened';
+		} else {
+			$application_deny_mesg = 'Error! I\'m not sure why you can\'t apply for this absence.';
+		}
+
+		// permissions
+		$allow_applicant_selection = $viewer_is_absentee;
+
+		$this->set(compact('user', 'absence', 'show_edit', 'show_delete', 'show_created', 'show_modified', 'show_apply', 'show_release', 'show_applications', 'application_deny_mesg', 'show_application_deny_mesg', 'allow_applicant_selection'));
+		$this->render('/absences/view');
 	}
 
 	function add() {
