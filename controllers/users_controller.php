@@ -100,6 +100,11 @@ class UsersController extends AppController {
 		$this->User->recursive = 2;
 		$user = $this->User->read(null, $id);
 
+		$viewer_id = $this->viewVars['viewer_id'];
+		$viewer_is_admin = $this->viewVars['viewer_is_admin'];
+		$viewer_is_teacher = $this->viewVars['viewer_is_teacher'];
+		$viewer_is_substitute = $this->viewVars['viewer_is_substitute'];
+
 		// determine what to show and not show in views
 		$show_school = false;
 		$show_preferred_schools = false;
@@ -107,6 +112,12 @@ class UsersController extends AppController {
 		$show_certification = false;
 		$show_absences_made = false;
 		$show_absences_filled = false;
+		$show_edit = $viewer_is_admin || ($viewer_id == $id);
+		$show_delete = $viewer_is_admin;
+		$show_account_details = $viewer_is_admin;
+
+		$test = !$show_delete;
+		// decisions based on the class of user being viewed
 		if ($this->User->isAdmin($user['User'])) {
 		} else if ($this->User->isTeacher($user['User'])) {
 			$show_school = true;
@@ -117,7 +128,15 @@ class UsersController extends AppController {
 			$show_certification = true;
 			$show_absences_filled = true;
 		}
-		$this->set(compact('user', 'show_school', 'show_preferred_schools', 'show_education_level', 'show_certification', 'show_absences_made', 'show_absences_filled'));
+
+		// decisions based on the class of the viewing user
+		if ($viewer_is_admin) {
+		} else if ($viewer_is_teacher) {
+		} else if ($viewer_is_substitute) {
+		}
+
+		$this->set(compact('user', 'show_school', 'show_preferred_schools', 'show_education_level', 'show_certification', 'show_absences_made', 'show_absences_filled', 'show_account_details', 'show_edit', 'show_delete', 'viewer_is_admin'));
+		$this->render('/users/view');
 	}
 
 	function edit($id, $check_ownership = true) {
@@ -299,12 +318,6 @@ class UsersController extends AppController {
 
 	function teacher_view($id = null) {
 		$this->view($id);
-
-		// show the buttons?
-		$self = $this->Session->read('User');
-		$show_edit = $self['User']['id'] == $id;
-		$show_delete = false;
-		$this->set(compact('show_edit', 'show_delete'));
 	}
 
 	function teacher_logout() {
@@ -313,12 +326,6 @@ class UsersController extends AppController {
 
 	function substitute_view($id = null) {
 		$this->view($id);
-
-		// show the buttons?
-		$self = $this->Session->read('User');
-		$show_edit = $self['User']['id'] == $id;
-		$show_delete = false;
-		$this->set(compact('show_edit', 'show_delete'));
 	}
 
 	function substitute_edit($id = null) {
