@@ -5,7 +5,7 @@ jQuery( function($) {
 	});
 });
 </script>
-<?php $this->Html->addCrumb('Home', '/substitute/'); ?>
+<?php $this->Html->addCrumb('Home', $this->viewVars['home_link_target']); ?>
 <?php $this->Html->addCrumb('Absences', $this->Html->url(array('controller' => 'absences', 'action' => 'index'))); ?>
 <div class="absences index">
 	<h2><?php __($type . ' Absences');?></h2>
@@ -52,7 +52,7 @@ jQuery( function($) {
 </div>
 <div class="actions">
 	<ul>
-		<li><?php echo $this->Html->link('Show Mine', array('filter' => 'my')); ?></li>
+		<li><?php if ($show_my_filter) echo $this->Html->link('Show Mine', array('filter' => 'my')); ?></li>
 		<li><?php echo $this->Html->link('Show Available', array('filter' => 'available')); ?></li>
 		<li><?php echo $this->Html->link('Show Fulfilled', array('filter' => 'fulfilled')); ?></li>
 		<li><?php echo $this->Html->link('Show Expired', array('filter' => 'expired')); ?></li>
