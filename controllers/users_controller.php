@@ -139,12 +139,14 @@ class UsersController extends AppController {
 		$this->render('/users/view');
 	}
 
-	function edit($id, $check_ownership = true) {
+	function edit($id) {
 		if(!$id && empty($this->data)) {
 			$this->Session->setFlash('Invalid user');
 			$this->redirect(array('controller' => 'absences', 'action' => 'index'));
 		}
 		$this->User->recursive = 1;
+		$viewer_id = $this->viewVars['viewer_id'];
+		$viewer_is_admin = $this->viewVars['viewer_is_admin'];
 		
 		// get & check User
 		$user = $this->User->read(null, $id);
@@ -154,8 +156,7 @@ class UsersController extends AppController {
 		}
 
 		// check for ownership
-		$session_user = $this->Session->read('User');
-		if (($user['User']['id'] != $session_user['User']['id']) && $check_ownership) {
+		if (($user['User']['id'] != $viewer_id) && !$viewer_is_admin) {
 			$this->Session->setFlash('You may only edit your user profile');
 			$this->redirect(array('action' => 'view', $id));
 		}
@@ -186,13 +187,19 @@ class UsersController extends AppController {
 		$show_preferred_schools = false;
 		$show_education_level = false;
 		$show_certification = false;
-		if ($this->User->isAdmin($id)) {
-		} else if ($this->User->isTeacher($id)) {
+		if ($this->User->isAdmin($user['User'])) {
+		} else if ($this->User->isTeacher($user['User'])) {
 			$show_school = true;
-		} else if ($this->User->isSubstitute($id)) {
+		} else if ($this->User->isSubstitute($user['User'])) {
 			$show_preferred_schools = true;
 			$show_education_level = true;
 			$show_certification = true;
+		}
+
+		// determine permissions based on viewer user type
+		$allow_edit_user_type = false;
+		if ($viewer_is_admin) {
+			$allow_edit_user_type = true;
 		}
 		
 		$schools = $this->User->School->find('list');
@@ -201,7 +208,8 @@ class UsersController extends AppController {
 		$preferredSchools = $schools;
 		$selectedSchools = array();
 		if (!empty($this->data['PreferredSchool'])) foreach ($this->data['PreferredSchool'] as $school) array_push($selectedSchools, $school['id']);
-		$this->set(compact('schools', 'userTypes', 'educationLevels', 'preferredSchools', 'selectedSchools', 'show_school', 'show_preferred_schools', 'show_education_level', 'show_certification'));
+		$this->set(compact('schools', 'userTypes', 'educationLevels', 'preferredSchools', 'selectedSchools', 'show_school', 'show_preferred_schools', 'show_education_level', 'show_certification', 'allow_edit_user_type'));
+		$this->render('/users/edit');
 	}
 
 	function admin_index() {
@@ -249,7 +257,7 @@ class UsersController extends AppController {
 	}
 
 	function admin_edit($id = null) {
-		$this->edit($id, false);
+		$this->edit($id);
 		/*
 		if(!$id && empty($this->data)) {
 			$this->Session->setFlash('Invalid user');
