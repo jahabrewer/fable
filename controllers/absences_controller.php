@@ -56,6 +56,7 @@ class AbsencesController extends AppController {
 		$this->Absence->recursive = 1;
 		$absences = $this->paginate();
 		$this->set(compact('absences', 'type', 'show_my_filter'));
+		$this->render('/absences/index');
 	}
 
 	function view($id = null) {
