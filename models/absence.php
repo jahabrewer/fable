@@ -2,6 +2,7 @@
 class Absence extends AppModel {
 	var $name = 'Absence';
 	var $displayField = 'absentee_id';
+	var $order = 'Absence.start ASC';
 
 	var $validate = array(
 		'start' => array(
