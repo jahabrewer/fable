@@ -101,9 +101,9 @@ class AbsencesController extends AppController {
 		$show_delete = $viewer_is_admin || $viewer_is_absentee;
 		$show_created = $viewer_is_admin;
 		$show_modified = $viewer_is_admin;
-		// show apply only if user has no application and the absence
+		// show apply only if sub has no application and the absence
 		// isn't fulfilled
-		$show_apply = empty($application) && !$absence_is_fulfilled && $absence_is_in_future;
+		$show_apply = $viewer_is_substitute && empty($application) && !$absence_is_fulfilled && $absence_is_in_future;
 		// show release only if the viewer is the fulfiller
 		$show_release = $viewer_is_fulfiller;
 		// only show applications to admins and owners
