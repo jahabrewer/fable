@@ -9,6 +9,9 @@ jQuery( function($) {
 <?php $this->Html->addCrumb('Absences', $this->Html->url(array('controller' => 'absences', 'action' => 'index'))); ?>
 <div class="absences index">
 	<h2><?php __($type . ' Absences');?></h2>
+	<div class="buttons">
+		<?php if ($show_add) echo $this->Html->link('+ New', array('action' => 'add'), array('id' => 'add')); ?>
+	</div>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>

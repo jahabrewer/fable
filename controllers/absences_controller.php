@@ -10,6 +10,7 @@ class AbsencesController extends AppController {
 
 		$viewer_id = $this->viewVars['viewer_id'];
 		$viewer_is_admin = $this->viewVars['viewer_is_admin'];
+		$viewer_is_teacher = $this->viewVars['viewer_is_teacher'];
 
 		// default to no highlighting
 		$highlight_mine = false;
@@ -66,10 +67,13 @@ class AbsencesController extends AppController {
 				$highlight_mine = true;
 			}
 		}
+
 		$show_my_filter = !$viewer_is_admin;
+		$show_add = $viewer_is_teacher;
+
 		$this->Absence->recursive = 1;
 		$absences = $this->paginate();
-		$this->set(compact('absences', 'type', 'show_my_filter', 'highlight_mine', 'highlight_available', 'highlight_fulfilled', 'highlight_expired', 'highlight_all'));
+		$this->set(compact('absences', 'type', 'show_my_filter', 'highlight_mine', 'highlight_available', 'highlight_fulfilled', 'highlight_expired', 'highlight_all', 'show_add'));
 		$this->render('/absences/index');
 	}
 
