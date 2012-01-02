@@ -1,3 +1,6 @@
+<?php $this->Html->addCrumb('Home', $this->viewVars['home_link_target']); ?>
+<?php $this->Html->addCrumb('Absences', $this->Html->url(array('controller' => 'absences', 'action' => 'index'))); ?>
+<?php $this->Html->addCrumb('Add'); ?>
 <div class="absences form">
 <?php echo $this->Form->create('Absence');?>
 	<fieldset>
