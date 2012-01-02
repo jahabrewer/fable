@@ -161,8 +161,8 @@ class AbsencesController extends AppController {
 		} else {
 			$this->data = $this->Absence->read(null, $id);
 		}
-		$absentees = $this->Absence->Absentee->find('list');
-		$fulfillers = $this->Absence->Fulfiller->find('list');
+		$absentees = $this->Absence->Absentee->find('list', array('conditions' => 'Absentee.user_type_id = 2'));
+		$fulfillers = $this->Absence->Fulfiller->find('list', array('conditions' => 'Fulfiller.user_type_id = 3'));
 		$schools = $this->Absence->School->find('list');
 		$allow_absentee_change = $viewer_is_admin;
 		$this->set(compact('absentees', 'fulfillers', 'schools', 'allow_absentee_change'));
@@ -334,8 +334,8 @@ class AbsencesController extends AppController {
 		// set absentee to self
 		$this->data['Absence']['absentee_id'] = $user['User']['id'];
 
-		$absentees = $this->Absence->Absentee->find('list');
-		$fulfillers = $this->Absence->Fulfiller->find('list');
+		$absentees = $this->Absence->Absentee->find('list', array('conditions' => 'Absentee.user_type_id = 2'));
+		$fulfillers = $this->Absence->Fulfiller->find('list', array('conditions' => 'Fulfiller.user_type_id = 3'));
 		$schools = $this->Absence->School->find('list');
 		$this->set(compact('absentees', 'fulfillers', 'schools'));
 	}
