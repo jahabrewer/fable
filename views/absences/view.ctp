@@ -15,7 +15,8 @@
 		<?php if ($show_edit) echo $this->Html->link('Edit', array('action' => 'edit', $absence['Absence']['id']), array('id' => 'edit')); ?>
 		<?php if ($show_delete) echo $this->Html->link('Delete', array('action' => 'delete', $absence['Absence']['id']), array('id' => 'delete'), 'Are you sure you want to delete this absence?'); ?>
 		<?php if ($show_apply) echo $this->Html->link('Apply', array('action' => 'apply', $absence['Absence']['id']), array('id' => 'apply')); ?>
-		<?php if ($show_release) echo $this->Html->link('Release', array('action' => 'release', $absence['Absence']['id']), array('id' => 'release')); ?>
+		<?php if ($show_retract) echo $this->Html->link('Retract Application', array('action' => 'retract', $absence['Absence']['id']), array('id' => 'retract')); ?>
+		<?php if ($show_release) echo $this->Html->link('Release Absence', array('action' => 'release', $absence['Absence']['id']), array('id' => 'release')); ?>
 		</div>
 <h2><?php  __('Absence');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>

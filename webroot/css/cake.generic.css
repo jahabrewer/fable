@@ -635,12 +635,12 @@ div.buttons {
 #edit:hover, #apply:hover {
 	color: #eef;
 }
-#delete, #release {
+#delete, #release, #retract {
 	background: #bfa09a;
 	background: -webkit-gradient(linear, left top, left bottom, from(#bfa09a), to(#af908a));
 	background-image: -moz-linear-gradient(top, #bfa09a, #af908a);
 }
-#delete:hover, #release:hover {
+#delete:hover, #release:hover, #retract:hover {
 	color: #fee;
 }
 .nav_blocks a {

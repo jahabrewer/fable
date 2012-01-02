@@ -265,30 +265,30 @@ class AbsencesController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
-	function substitute_unapply($id = null) {
+	function substitute_retract($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid absence', true));
 			$this->redirect(array('action' => 'index'));
 		}
 
-		$user = $this->Session->read('User');
+		$viewer_id = $this->viewVars['viewer_id'];
 
 		// has the user applied? (deleteall works regardlessly, but
 		// the successful delete message will confuse users)
-		$tmp = $this->Absence->Application->findApplicationsByAbsenceAndUser($id, $user['User']['id']);
+		$tmp = $this->Absence->Application->findApplicationsByAbsenceAndUser($id, $viewer_id);
 		if (empty($tmp)) {
 			$this->Session->setFlash(__('You did not apply for that absence', true));
 			$this->redirect(array('action' => 'index'));
 		}
 
 		$conditions = array(
-			'Application.user_id' => $user['User']['id'],
+			'Application.user_id' => $viewer_id,
 			'Application.absence_id' => $id
 		);
 		if ($this->Absence->Application->deleteAll($conditions)) {
-			$this->Session->setFlash('Application deleted successfully');
+			$this->Session->setFlash('Application retracted');
 		} else {
-			$this->Session->setFlash('Application was not deleted successfully');
+			$this->Session->setFlash('Application was not retracted successfully');
 		}
 		$this->redirect(array('action' => 'index'));
 	}
