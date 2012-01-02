@@ -11,6 +11,13 @@ class AbsencesController extends AppController {
 		$viewer_id = $this->viewVars['viewer_id'];
 		$viewer_is_admin = $this->viewVars['viewer_is_admin'];
 
+		// default to no highlighting
+		$highlight_mine = false;
+		$highlight_available = false;
+		$highlight_fulfilled = false;
+		$highlight_expired = false;
+		$highlight_all = false;
+
 		// handle filters
 		if (isset($this->params['named']['filter'])) {
 			$filter = $this->params['named']['filter'];
@@ -19,24 +26,29 @@ class AbsencesController extends AppController {
 					'conditions' => array('Absence.start > NOW() AND Absence.fulfiller_id IS NULL')
 				);
 				$type = 'Available';
+				$highlight_available = true;
 			} elseif ($filter == 'my') {
 				$this->paginate = array(
 					'conditions' => array("(Absence.fulfiller_id=$viewer_id OR Absence.absentee_id=$viewer_id) AND Absence.start > NOW()")
 				);
 				$type = 'My';
+				$highlight_mine = true;
 			} elseif ($filter == 'expired') {
 				$this->paginate = array(
 					'conditions' => array('Absence.start <= NOW()')
 				);
 				$type = 'Expired';
+				$highlight_expired = true;
 			} elseif ($filter == 'fulfilled') {
 				$this->paginate = array(
 					'conditions' => array('Absence.fulfiller_id IS NOT NULL')
 				);
 				$type = 'Fulfilled';
+				$highlight_fulfilled = true;
 			} elseif ($filter == 'all') {
 				$this->paginate = array();
 				$type = 'All';
+				$highlight_all = true;
 			}
 		} else {
 			// default behavior (no filter)
@@ -45,17 +57,19 @@ class AbsencesController extends AppController {
 					'conditions' => array('Absence.start > NOW() AND Absence.fulfiller_id IS NULL')
 				);
 				$type = 'Available';
+				$highlight_available = true;
 			} else {
 				$this->paginate = array(
 					'conditions' => array("(Absence.fulfiller_id=$viewer_id OR Absence.absentee_id=$viewer_id) AND Absence.start > NOW()")
 				);
 				$type = 'My';
+				$highlight_mine = true;
 			}
 		}
 		$show_my_filter = !$viewer_is_admin;
 		$this->Absence->recursive = 1;
 		$absences = $this->paginate();
-		$this->set(compact('absences', 'type', 'show_my_filter'));
+		$this->set(compact('absences', 'type', 'show_my_filter', 'highlight_mine', 'highlight_available', 'highlight_fulfilled', 'highlight_expired', 'highlight_all'));
 		$this->render('/absences/index');
 	}
 

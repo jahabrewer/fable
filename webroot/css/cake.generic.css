@@ -447,6 +447,15 @@ td.actions a:hover {
 	background: #eaeaea;
 }
 
+/* To highlight absence filters */
+#highlight {
+	background: #aaa;
+	background: -webkit-gradient(linear, left top, left bottom, from(#bbb), to(#aaa));
+	background-image: -moz-linear-gradient(top, #aaa, #bbb);
+	text-decoration: none;
+	cursor: default;
+}
+
 /** Related **/
 div.related {
 	clear: both;
