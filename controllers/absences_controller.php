@@ -95,6 +95,7 @@ class AbsencesController extends AppController {
 		$absence_is_in_future = $this->Absence->isAbsenceInFuture($absence['Absence']);
 		$viewer_is_fulfiller = isset($absence['Absence']['fulfiller_id']) && ($absence['Absence']['fulfiller_id'] == $viewer_id);
 		$viewer_is_absentee = isset($absence['Absence']['absentee_id']) && ($absence['Absence']['absentee_id'] == $viewer_id);
+		$viewer_is_applicant = !empty($application);
 
 		// set view vars
 		$show_edit = $viewer_is_admin || $viewer_is_absentee;
@@ -103,29 +104,33 @@ class AbsencesController extends AppController {
 		$show_modified = $viewer_is_admin;
 		// show apply only if sub has no application and the absence
 		// isn't fulfilled
-		$show_apply = $viewer_is_substitute && empty($application) && !$absence_is_fulfilled && $absence_is_in_future;
+		$show_apply = $viewer_is_substitute && !$viewer_is_applicant && !$absence_is_fulfilled && $absence_is_in_future;
 		// show release only if the viewer is the fulfiller
 		$show_release = $viewer_is_fulfiller;
+		// show retract only if the viewer has applied for the absence
+		$show_retract = $viewer_is_applicant;
 		// only show applications to admins and owners
 		$show_applications = ($viewer_is_admin || $viewer_is_absentee) && $absence_is_in_future && !$absence_is_fulfilled;
 		// to notify user that she has applied for the absence
 		$show_application_deny_mesg = $viewer_is_substitute && !$show_apply;
+		$show_sub_status = $viewer_is_substitute && $absence_is_in_future;
+		$sub_status_1 = !$viewer_is_applicant && !$absence_is_fulfilled;
+		$sub_status_2 = $viewer_is_applicant;
+		$sub_status_3 = $absence_is_fulfilled;
 		if ($viewer_is_fulfiller) {
 			$application_deny_mesg = 'You are this absence\'s fulfiller';
 		} else if ($absence_is_fulfilled) {
-			$application_deny_mesg = 'This absence is already fulfilled';
-		} else if (!empty($application)) {
-			$application_deny_mesg = 'You have already applied for this absence';
+			$application_deny_mesg = 'This absence is being fulfilled by someone else';
 		} else if (!$absence_is_in_future) {
 			$application_deny_mesg = 'This absence has already happened';
 		} else {
-			$application_deny_mesg = 'Error! I\'m not sure why you can\'t apply for this absence.';
+			$application_deny_mesg = 'Teacher decision';
 		}
 
 		// permissions
 		$allow_applicant_selection = $viewer_is_absentee;
 
-		$this->set(compact('user', 'absence', 'show_edit', 'show_delete', 'show_created', 'show_modified', 'show_apply', 'show_release', 'show_applications', 'application_deny_mesg', 'show_application_deny_mesg', 'allow_applicant_selection'));
+		$this->set(compact('user', 'absence', 'show_edit', 'show_delete', 'show_created', 'show_modified', 'show_apply', 'show_release', 'show_applications', 'application_deny_mesg', 'show_application_deny_mesg', 'allow_applicant_selection', 'show_retract', 'show_sub_status', 'sub_status_1', 'sub_status_2', 'sub_status_3'));
 		$this->render('/absences/view');
 	}
 

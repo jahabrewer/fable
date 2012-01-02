@@ -15,7 +15,6 @@
 		<?php if ($show_edit) echo $this->Html->link('Edit', array('action' => 'edit', $absence['Absence']['id']), array('id' => 'edit')); ?>
 		<?php if ($show_delete) echo $this->Html->link('Delete', array('action' => 'delete', $absence['Absence']['id']), array('id' => 'delete'), 'Are you sure you want to delete this absence?'); ?>
 		<?php if ($show_apply) echo $this->Html->link('Apply', array('action' => 'apply', $absence['Absence']['id']), array('id' => 'apply')); ?>
-		<?php if ($show_application_deny_mesg) echo $application_deny_mesg; ?>
 		<?php if ($show_release) echo $this->Html->link('Release', array('action' => 'release', $absence['Absence']['id']), array('id' => 'release')); ?>
 		</div>
 <h2><?php  __('Absence');?></h2>
@@ -101,5 +100,15 @@
 	<?php endforeach; ?>
 	</table>
 	<?php endif; ?>
+</div>
+<?php endif; ?>
+<?php if ($show_sub_status): ?>
+<div class="right-sidebar sub-status">
+	<h3><?php __('Your Status');?></h3>
+	<ul>
+		<li<?php if ($sub_status_1) echo " id='sub-status-emphasis'"; ?>>You haven't applied</li>
+		<li<?php if ($sub_status_2) echo " id='sub-status-emphasis'"; ?>>You've applied, awaiting teacher decision</li>
+		<li<?php if ($sub_status_3) echo " id='sub-status-emphasis'"; ?>><?php echo $application_deny_mesg; ?></li>
+	</ul>
 </div>
 <?php endif; ?>

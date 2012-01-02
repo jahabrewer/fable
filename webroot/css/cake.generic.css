@@ -660,3 +660,11 @@ div.buttons {
 }
 .nav_blocks a:hover {
 	background: #b8d7e3;
+}
+.sub-status li {
+	color: #bbb;
+}
+#sub-status-emphasis {
+	font-weight: bold;
+	color: #000;
+}
