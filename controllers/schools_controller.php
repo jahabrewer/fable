@@ -13,8 +13,17 @@ class SchoolsController extends AppController {
 			$this->Session->setFlash(__('Invalid school', true));
 			$this->redirect(array('action' => 'index'));
 		}
+
+		$viewer_is_admin = $this->viewVars['viewer_is_admin'];
+		$show_edit = $viewer_is_admin;
+		$show_delete = $viewer_is_admin;
+		$show_linked_crumb = $viewer_is_admin;
+		$show_id = $viewer_is_admin;
+
 		$this->School->recursive = 2;
-		$this->set('school', $this->School->read(null, $id));
+		$school = $this->School->read(null, $id);
+		$this->set(compact('show_edit', 'show_delete', 'show_linked_crumb', 'show_id', 'school'));
+		$this->render('/schools/view');
 	}
 
 	function admin_index() {
