@@ -93,7 +93,7 @@ class AbsencesController extends AppController {
 		$application = $this->Absence->Application->find('first', array('conditions' => array('absence_id' => $id, 'user_id' => $viewer_id)));
 		$absence_is_fulfilled = !empty($absence['Absence']['fulfiller_id']);
 		$absence_is_in_future = $this->Absence->isAbsenceInFuture($absence['Absence']);
-		$viewer_is_fulfiller = /*isset($absence['Absence']['fulfiller_id']) &&*/ ($absence['Absence']['fulfiller_id'] == $viewer_id);
+		$viewer_is_fulfiller = isset($absence['Absence']['fulfiller_id']) && ($absence['Absence']['fulfiller_id'] == $viewer_id);
 		$viewer_is_absentee = isset($absence['Absence']['absentee_id']) && ($absence['Absence']['absentee_id'] == $viewer_id);
 
 		// set view vars
