@@ -6,11 +6,13 @@ jQuery( function($) {
 });
 </script>
 <?php $this->Html->addCrumb('Home', $this->viewVars['home_link_target']); ?>
-<?php $this->Html->addCrumb('Users', $this->Html->url(array('controller' => 'users', 'action' => 'index'))); ?>
+<?php if ($show_linked_breadcrumb) $this->Html->addCrumb('Users', $this->Html->url(array('controller' => 'users', 'action' => 'index'))); ?>
+<?php if (!$show_linked_breadcrumb) $this->Html->addCrumb('Users'); ?>
 <?php $this->Html->addCrumb('View'); ?>
 <div class="users view">
 	<div class="buttons">
 		<?php if ($show_edit) echo $this->Html->link('Edit', array('action' => 'edit', $user['User']['id']), array('id' => 'edit')); ?>
+		<?php if ($show_pw_change) echo $this->Html->link('Change Password', array('action' => 'change_password'), array('id' => 'change-password')); ?>
 		<?php if ($show_delete) echo $this->Html->link('Delete', array('action' => 'delete', $user['User']['id']), array('id' => 'delete'), 'Are you sure you want to delete this user?'); ?>
 	</div>
 <h2><?php echo $user['User']['first_name'] . ' ' . $user['User']['last_name'] ?></h2>

@@ -106,6 +106,7 @@ class UsersController extends AppController {
 		$viewer_is_substitute = $this->viewVars['viewer_is_substitute'];
 
 		// determine what to show and not show in views
+		$show_linked_breadcrumb = $viewer_is_admin;
 		$show_school = false;
 		$show_preferred_schools = false;
 		$show_education_level = false;
@@ -113,6 +114,7 @@ class UsersController extends AppController {
 		$show_absences_made = false;
 		$show_absences_filled = false;
 		$show_edit = $viewer_is_admin || ($viewer_id == $id);
+		$show_pw_change = $viewer_is_admin || ($viewer_id == $id);
 		$show_delete = $viewer_is_admin;
 		$show_account_details = $viewer_is_admin;
 
@@ -135,7 +137,7 @@ class UsersController extends AppController {
 		} else if ($viewer_is_substitute) {
 		}
 
-		$this->set(compact('user', 'show_school', 'show_preferred_schools', 'show_education_level', 'show_certification', 'show_absences_made', 'show_absences_filled', 'show_account_details', 'show_edit', 'show_delete', 'viewer_is_admin'));
+		$this->set(compact('user', 'show_school', 'show_preferred_schools', 'show_education_level', 'show_certification', 'show_absences_made', 'show_absences_filled', 'show_account_details', 'show_edit', 'show_pw_change', 'show_delete', 'show_linked_breadcrumb', 'viewer_is_admin'));
 		$this->render('/users/view');
 	}
 
