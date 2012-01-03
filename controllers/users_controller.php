@@ -347,4 +347,57 @@ class UsersController extends AppController {
 	function admin_logout() {
 		$this->logout();
 	}
+
+	function change_password() {
+		$viewer_id = $this->viewVars['viewer_id'];
+		$viewer_is_admin = $this->viewVars['viewer_is_admin'];
+		
+		// unset unrequired validation rules
+		if ($viewer_is_admin) unset($this->User->validate['username']['check_user']);
+		unset($this->User->validate['username']['check_username_exists']);
+		unset($this->User->validate['email_address']);
+		unset($this->User->validate['password']);
+
+		// get the user list for admins
+		$user_list = $this->User->find('list', array('order' => 'User.username ASC'));
+		$hide_username_field = !$viewer_is_admin;
+		
+		if(!empty($this->data)) {
+			if ($this->data['User']['new_password'] != $this->data['User']['confirm_password']) {
+				// confirm that new passwords match
+				$this->Session->setFlash('New passwords do not match');
+			} else {
+				// get the user's information, only allow overrides for admin
+				$user = $this->User->read(null, ($viewer_is_admin ? $this->data['User']['id'] : $viewer_id));
+				if(empty($user)) {
+					$this->Session->setFlash('Invalid user');
+					$this->redirect(array('controller' => 'absences', 'action' => 'index'));
+				}
+				// set the new password
+				$user['User']['password'] = $this->data['User']['new_password'];
+				// perform the change
+				if ($this->User->save($user)) {
+					$this->Session->setFlash('Password change successful');
+					$this->redirect(array('action' => 'view', $this->data['User']['id']));
+				} else {
+					$this->Session->setFlash('Password change not successful, ensure your old password is correct');
+				}
+			}
+		}
+		
+		$this->set(compact('user_list', 'viewer_id', 'hide_username_field'));
+		$this->render('/users/change_password');
+	}
+
+	function admin_change_password() {
+		$this->change_password();
+	}
+
+	function teacher_change_password() {
+		$this->change_password();
+	}
+
+	function substitute_change_password() {
+		$this->change_password();
+	}
 }
