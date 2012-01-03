@@ -11,7 +11,7 @@ jQuery( function($) {
 <?php $this->Html->addCrumb('View'); ?>
 <div class="users view">
 	<div class="buttons">
-		<?php if ($show_edit) echo $this->Html->link('Edit', array('action' => 'edit', $user['User']['id']), array('id' => 'edit')); ?>
+		<?php if ($show_edit) echo $this->Html->link('Edit Profile', array('action' => 'edit', $user['User']['id']), array('id' => 'edit')); ?>
 		<?php if ($show_pw_change) echo $this->Html->link('Change Password', array('action' => 'change_password'), array('id' => 'change-password')); ?>
 		<?php if ($show_delete) echo $this->Html->link('Delete', array('action' => 'delete', $user['User']['id']), array('id' => 'delete'), 'Are you sure you want to delete this user?'); ?>
 	</div>
