@@ -11,6 +11,7 @@ class AbsencesController extends AppController {
 		$viewer_id = $this->viewVars['viewer_id'];
 		$viewer_is_admin = $this->viewVars['viewer_is_admin'];
 		$viewer_is_teacher = $this->viewVars['viewer_is_teacher'];
+		$viewer_is_substitute = $this->viewVars['viewer_is_substitute'];
 
 		// default to no highlighting
 		$highlight_mine = false;
@@ -31,7 +32,13 @@ class AbsencesController extends AppController {
 				$highlight_available = true;
 			} elseif ($filter == 'my') {
 				$this->paginate = array(
-					'conditions' => array("(Absence.fulfiller_id=$viewer_id OR Absence.absentee_id=$viewer_id) AND Absence.start > NOW()")
+					'conditions' => array(
+						'OR' => array(
+							'Absence.fulfiller_id' => $viewer_id,
+							'Absence.absentee_id' => $viewer_id,
+						),
+						'Absence.start > NOW()',
+					),
 				);
 				$type = 'My';
 				$highlight_mine = true;
@@ -73,7 +80,13 @@ class AbsencesController extends AppController {
 				$highlight_available = true;
 			} else {
 				$this->paginate = array(
-					'conditions' => array("(Absence.fulfiller_id=$viewer_id OR Absence.absentee_id=$viewer_id) AND Absence.start > NOW()")
+					'conditions' => array(
+						'OR' => array(
+							'Absence.fulfiller_id' => $viewer_id,
+							'Absence.absentee_id' => $viewer_id,
+						),
+						'Absence.start > NOW()',
+					),
 				);
 				$type = 'My';
 				$highlight_mine = true;
@@ -82,6 +95,8 @@ class AbsencesController extends AppController {
 
 		$show_my_filter = !$viewer_is_admin;
 		$show_add = $viewer_is_teacher;
+		$show_pending_filter = $viewer_is_substitute;
+		$show_available_filter = !$viewer_is_teacher;
 		// when using the pending filter, the results array is
 		// constructed differently because the information comes from
 		// application
@@ -89,7 +104,7 @@ class AbsencesController extends AppController {
 
 		$this->Absence->recursive = 1;
 		$absences = $use_alt_array ? $this->paginate('Application') : $this->paginate();
-		$this->set(compact('absences', 'type', 'show_my_filter', 'highlight_mine', 'highlight_available', 'highlight_fulfilled', 'highlight_expired', 'highlight_all', 'highlight_pending', 'show_add', 'use_alt_array'));
+		$this->set(compact('absences', 'type', 'show_my_filter', 'show_pending_filter', 'show_available_filter', 'highlight_mine', 'highlight_available', 'highlight_fulfilled', 'highlight_expired', 'highlight_all', 'highlight_pending', 'show_add', 'use_alt_array'));
 		$this->render('/absences/index');
 	}
 

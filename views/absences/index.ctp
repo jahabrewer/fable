@@ -70,8 +70,8 @@ jQuery( function($) {
 <div class="actions">
 	<ul>
 		<li><?php if ($show_my_filter) echo $this->Html->link('Show Mine', array('filter' => 'my'), array ('id' => ($highlight_mine ? 'highlight' : ''))); ?></li>
-		<li><?php echo $this->Html->link('Show Available', array('filter' => 'available'), array ('id' => ($highlight_available ? 'highlight' : ''))); ?></li>
-		<li><?php echo $this->Html->link('Show Pending', array('filter' => 'pending'), array ('id' => ($highlight_pending ? 'highlight' : ''))); ?></li>
+		<li><?php if ($show_available_filter) echo $this->Html->link('Show Available', array('filter' => 'available'), array ('id' => ($highlight_available ? 'highlight' : ''))); ?></li>
+		<li><?php if ($show_pending_filter) echo $this->Html->link('Show Pending', array('filter' => 'pending'), array ('id' => ($highlight_pending ? 'highlight' : ''))); ?></li>
 		<li><?php //echo $this->Html->link('Show Fulfilled', array('filter' => 'fulfilled'), array ('id' => ($highlight_fulfilled ? 'highlight' : ''))); ?></li>
 		<li><?php //echo $this->Html->link('Show Expired', array('filter' => 'expired'), array ('id' => ($highlight_expired ? 'highlight' : ''))); ?></li>
 		<li><?php echo $this->Html->link('Show All', array('filter' => 'all'), array ('id' => ($highlight_all ? 'highlight' : ''))); ?></li>
