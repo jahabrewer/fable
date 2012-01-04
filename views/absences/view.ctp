@@ -50,7 +50,7 @@
 			<?php echo $this->Time->nice($absence['Absence']['end']); ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Comment'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Instructions'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $absence['Absence']['comment']; ?>
 			&nbsp;

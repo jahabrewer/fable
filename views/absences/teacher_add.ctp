@@ -7,12 +7,12 @@
 		<legend><?php __('Add Absence'); ?></legend>
 	<?php
 		echo $this->Form->input('absentee_id', array('type' => 'hidden'));
-		echo $this->Form->input('fulfiller_id', array('empty' => 'Not specified'));
+		echo $this->Form->input('fulfiller_id', array('empty' => 'Not specified', 'label' => 'Fulfiller (only specify if prearranged)'));
 		echo $this->Form->input('school_id');
 		echo $this->Form->input('room');
 		echo $this->Form->input('start', array('interval' => 15));
 		echo $this->Form->input('end', array('interval' => 15));
-		echo $this->Form->input('comment');
+		echo $this->Form->input('comment', array('label' => 'Instructions to substitute'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>
