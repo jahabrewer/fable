@@ -1,5 +1,6 @@
 <?php
 class Application extends AppModel {
+	var $actsAs = array('Containable');
 	var $name = 'Application';
 
 	var $belongsTo = array(

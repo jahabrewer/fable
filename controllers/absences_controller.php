@@ -15,6 +15,7 @@ class AbsencesController extends AppController {
 		// default to no highlighting
 		$highlight_mine = false;
 		$highlight_available = false;
+		$highlight_pending = false;
 		$highlight_fulfilled = false;
 		$highlight_expired = false;
 		$highlight_all = false;
@@ -34,6 +35,17 @@ class AbsencesController extends AppController {
 				);
 				$type = 'My';
 				$highlight_mine = true;
+			} elseif ($filter == 'pending') {
+				$this->paginate = array('Application' => array(
+					'conditions' => array('Application.user_id' => $viewer_id),
+					'contain' => array(
+						'Absence.Absentee.username',
+						'Absence.Fulfiller.username',
+						'Absence.School.name',
+					),
+				));
+				$type = 'Pending';
+				$highlight_pending = true;
 			} elseif ($filter == 'expired') {
 				$this->paginate = array(
 					'conditions' => array('Absence.start <= NOW()')
@@ -70,10 +82,14 @@ class AbsencesController extends AppController {
 
 		$show_my_filter = !$viewer_is_admin;
 		$show_add = $viewer_is_teacher;
+		// when using the pending filter, the results array is
+		// constructed differently because the information comes from
+		// application
+		$use_alt_array = isset($filter) && ($filter == 'pending');
 
 		$this->Absence->recursive = 1;
-		$absences = $this->paginate();
-		$this->set(compact('absences', 'type', 'show_my_filter', 'highlight_mine', 'highlight_available', 'highlight_fulfilled', 'highlight_expired', 'highlight_all', 'show_add'));
+		$absences = $use_alt_array ? $this->paginate('Application') : $this->paginate();
+		$this->set(compact('absences', 'type', 'show_my_filter', 'highlight_mine', 'highlight_available', 'highlight_fulfilled', 'highlight_expired', 'highlight_all', 'highlight_pending', 'show_add', 'use_alt_array'));
 		$this->render('/absences/index');
 	}
 

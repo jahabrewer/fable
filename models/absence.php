@@ -1,5 +1,6 @@
 <?php
 class Absence extends AppModel {
+	var $actsAs = array('Containable');
 	var $name = 'Absence';
 	var $displayField = 'absentee_id';
 	var $order = 'Absence.start ASC';

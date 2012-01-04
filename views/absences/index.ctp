@@ -31,9 +31,23 @@ jQuery( function($) {
 	?>
 	<tr data-href=<?php echo $this->Html->url(array('action' => 'view', $absence['Absence']['id'])); echo $class; ?>>
 		<td><?php echo $absence['Absence']['id']; ?>&nbsp;</td>
-		<td><?php echo $absence['Absentee']['username']; ?>&nbsp;</td>
-		<td><?php echo $absence['Fulfiller']['username']; ?>&nbsp;</td>
-		<td><?php echo $absence['School']['name']; ?>&nbsp;</td>
+		<?php
+		if ($use_alt_array) {
+			if (isset($absence['Absence']['Absentee']['username'])) $absentee_username = $absence['Absence']['Absentee']['username'];
+			else $absentee_username = '';
+			if (isset($absence['Absence']['Fulfiller']['username'])) $fulfiller_username = $absence['Absence']['Fulfiller']['username'];
+			else $fulfiller_username = '';
+			if (isset($absence['Absence']['School']['name'])) $school_name = $absence['Absence']['School']['name'];
+			else $school_name = '';
+		} else {
+			$absentee_username = $absence['Absentee']['username'];
+			$fulfiller_username = $absence['Fulfiller']['username'];
+			$school_name = $absence['School']['name'];
+		}
+		?>
+		<td><?php echo $absentee_username; ?>&nbsp;</td>
+		<td><?php echo $fulfiller_username; ?>&nbsp;</td>
+		<td><?php echo $school_name; ?>&nbsp;</td>
 		<td><?php echo $this->Time->nice($absence['Absence']['start']); ?>&nbsp;</td>
 		<td><?php echo $this->Time->nice($absence['Absence']['end']); ?>&nbsp;</td>
 	</tr>
@@ -57,8 +71,9 @@ jQuery( function($) {
 	<ul>
 		<li><?php if ($show_my_filter) echo $this->Html->link('Show Mine', array('filter' => 'my'), array ('id' => ($highlight_mine ? 'highlight' : ''))); ?></li>
 		<li><?php echo $this->Html->link('Show Available', array('filter' => 'available'), array ('id' => ($highlight_available ? 'highlight' : ''))); ?></li>
-		<li><?php echo $this->Html->link('Show Fulfilled', array('filter' => 'fulfilled'), array ('id' => ($highlight_fulfilled ? 'highlight' : ''))); ?></li>
-		<li><?php echo $this->Html->link('Show Expired', array('filter' => 'expired'), array ('id' => ($highlight_expired ? 'highlight' : ''))); ?></li>
+		<li><?php echo $this->Html->link('Show Pending', array('filter' => 'pending'), array ('id' => ($highlight_pending ? 'highlight' : ''))); ?></li>
+		<li><?php //echo $this->Html->link('Show Fulfilled', array('filter' => 'fulfilled'), array ('id' => ($highlight_fulfilled ? 'highlight' : ''))); ?></li>
+		<li><?php //echo $this->Html->link('Show Expired', array('filter' => 'expired'), array ('id' => ($highlight_expired ? 'highlight' : ''))); ?></li>
 		<li><?php echo $this->Html->link('Show All', array('filter' => 'all'), array ('id' => ($highlight_all ? 'highlight' : ''))); ?></li>
 	</ul>
 </div>
