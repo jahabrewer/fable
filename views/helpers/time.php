@@ -593,27 +593,32 @@ class TimeHelper extends AppHelper {
 		} else {
 			if ($years > 0) {
 				// years and months and days
-				$relativeDate .= ($relativeDate ? ', ' : '') . sprintf(__n('%d year', '%d years', $years, true), $years);
-				$relativeDate .= $months > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d month', '%d months', $months, true), $months) : '';
-				$relativeDate .= $weeks > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d week', '%d weeks', $weeks, true), $weeks) : '';
-				$relativeDate .= $days > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d day', '%d days', $days, true), $days) : '';
+				$relativeDate .= 'about ' . sprintf(__n('%d year', '%d years', $years, true), $years);
+				//$relativeDate .= ($relativeDate ? ', ' : '') . sprintf(__n('%d year', '%d years', $years, true), $years);
+				//$relativeDate .= $months > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d month', '%d months', $months, true), $months) : '';
+				//$relativeDate .= $weeks > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d week', '%d weeks', $weeks, true), $weeks) : '';
+				//$relativeDate .= $days > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d day', '%d days', $days, true), $days) : '';
 			} elseif (abs($months) > 0) {
 				// months, weeks and days
-				$relativeDate .= ($relativeDate ? ', ' : '') . sprintf(__n('%d month', '%d months', $months, true), $months);
-				$relativeDate .= $weeks > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d week', '%d weeks', $weeks, true), $weeks) : '';
-				$relativeDate .= $days > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d day', '%d days', $days, true), $days) : '';
+				$relativeDate .= 'about ' . sprintf(__n('%d month', '%d months', $months, true), $months);
+				//$relativeDate .= ($relativeDate ? ', ' : '') . sprintf(__n('%d month', '%d months', $months, true), $months);
+				//$relativeDate .= $weeks > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d week', '%d weeks', $weeks, true), $weeks) : '';
+				//$relativeDate .= $days > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d day', '%d days', $days, true), $days) : '';
 			} elseif (abs($weeks) > 0) {
 				// weeks and days
-				$relativeDate .= ($relativeDate ? ', ' : '') . sprintf(__n('%d week', '%d weeks', $weeks, true), $weeks);
-				$relativeDate .= $days > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d day', '%d days', $days, true), $days) : '';
+				$relativeDate .= 'about ' . sprintf(__n('%d week', '%d weeks', $weeks, true), $weeks);
+				//$relativeDate .= ($relativeDate ? ', ' : '') . sprintf(__n('%d week', '%d weeks', $weeks, true), $weeks);
+				//$relativeDate .= $days > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d day', '%d days', $days, true), $days) : '';
 			} elseif (abs($days) > 0) {
 				// days and hours
-				$relativeDate .= ($relativeDate ? ', ' : '') . sprintf(__n('%d day', '%d days', $days, true), $days);
-				$relativeDate .= $hours > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d hour', '%d hours', $hours, true), $hours) : '';
+				$relativeDate .= 'about ' . sprintf(__n('%d day', '%d days', $days, true), $days);
+				//$relativeDate .= ($relativeDate ? ', ' : '') . sprintf(__n('%d day', '%d days', $days, true), $days);
+				//$relativeDate .= $hours > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d hour', '%d hours', $hours, true), $hours) : '';
 			} elseif (abs($hours) > 0) {
 				// hours and minutes
-				$relativeDate .= ($relativeDate ? ', ' : '') . sprintf(__n('%d hour', '%d hours', $hours, true), $hours);
-				$relativeDate .= $minutes > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d minute', '%d minutes', $minutes, true), $minutes) : '';
+				$relativeDate .= 'about ' . sprintf(__n('%d hour', '%d hours', $hours, true), $hours);
+				//$relativeDate .= ($relativeDate ? ', ' : '') . sprintf(__n('%d hour', '%d hours', $hours, true), $hours);
+				//$relativeDate .= $minutes > 0 ? ($relativeDate ? ', ' : '') . sprintf(__n('%d minute', '%d minutes', $minutes, true), $minutes) : '';
 			} elseif (abs($minutes) > 0) {
 				// minutes only
 				$relativeDate .= ($relativeDate ? ', ' : '') . sprintf(__n('%d minute', '%d minutes', $minutes, true), $minutes);
