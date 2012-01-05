@@ -60,4 +60,21 @@ class AppController extends Controller {
 		// export vars
 		$this->set(compact('viewer_id', 'viewer_is_admin', 'viewer_is_teacher', 'viewer_is_substitute', 'home_link_target'));
 	}
+
+	function _create_notification($notification_type, $absence_id, $user_id, $other_id) {
+		$this->loadModel('NotificationType');
+		$this->loadModel('Notification');
+		// figure out which notification type this is
+		$notification_type_id = $this->NotificationType->find('first', array(
+			'conditions' => array('NotificationType.name' => $notification_type)
+		));
+		// record notification
+		$notification = array(
+			'user_id' => $user_id,
+			'absence_id' => $absence_id,
+			'other_id' => $other_id,
+			'notification_type_id' => $notification_type_id['NotificationType']['id'],
+		);
+		$this->Notification->save($notification);
+	}
 }

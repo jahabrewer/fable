@@ -10,10 +10,10 @@ class ApplicationsController extends AppController {
 		}
 
 		// check for ownership
-		$user = $this->Session->read('User');
+		$viewer_id = $this->viewVars['viewer_id'];
 		$application = $this->Application->read(null, $id);
 		$absence = $this->Application->Absence->read(array('id', 'absentee_id', 'fulfiller_id'), $application['Application']['absence_id']);
-		if (!$this->Application->Absence->isAbsenceOwnedByUser($application['Application']['absence_id'], $user['User']['id'])) {
+		if (!$this->Application->Absence->isAbsenceOwnedByUser($application['Application']['absence_id'], $viewer_id)) {
 			$this->Session->setFlash('You do not have permission to edit that absence');
 			$this->redirect(array('controller' => 'absences', 'action' => 'index'));
 		}
@@ -22,6 +22,10 @@ class ApplicationsController extends AppController {
 		$absence['Absence']['fulfiller_id'] = $application['Application']['user_id'];
 		if ($this->Application->Absence->save($absence)) {
 			$this->Application->deleteAllApplicationsByAbsence($application['Application']['absence_id']);
+
+			// send notification
+			$this->_create_notification('application_accepted', $application['Application']['absence_id'], $application['Application']['user_id'], $viewer_id);
+
 			$this->Session->setFlash('Substitute accepted');
 			$this->redirect(array('controller' => 'absences', 'action' => 'view', $application['Application']['absence_id']));
 		} else {

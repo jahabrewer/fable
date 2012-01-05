@@ -7,6 +7,16 @@ jQuery( function($) {
 </script>
 <?php $this->Html->addCrumb('Home', $this->viewVars['home_link_target']); ?>
 <?php $this->Html->addCrumb('Absences', $this->Html->url(array('controller' => 'absences', 'action' => 'index'))); ?>
+<div class="actions">
+	<ul>
+		<li><?php if ($show_my_filter) echo $this->Html->link('Show Mine', array('filter' => 'my'), array ('id' => ($highlight_mine ? 'highlight' : ''))); ?></li>
+		<li><?php if ($show_available_filter) echo $this->Html->link('Show Available', array('filter' => 'available'), array ('id' => ($highlight_available ? 'highlight' : ''))); ?></li>
+		<li><?php if ($show_pending_filter) echo $this->Html->link('Show Pending', array('filter' => 'pending'), array ('id' => ($highlight_pending ? 'highlight' : ''))); ?></li>
+		<li><?php //echo $this->Html->link('Show Fulfilled', array('filter' => 'fulfilled'), array ('id' => ($highlight_fulfilled ? 'highlight' : ''))); ?></li>
+		<li><?php //echo $this->Html->link('Show Expired', array('filter' => 'expired'), array ('id' => ($highlight_expired ? 'highlight' : ''))); ?></li>
+		<li><?php echo $this->Html->link('Show All', array('filter' => 'all'), array ('id' => ($highlight_all ? 'highlight' : ''))); ?></li>
+	</ul>
+</div>
 <div class="absences index">
 	<h2><?php __($type . ' Absences');?></h2>
 	<div class="buttons">
@@ -19,7 +29,6 @@ jQuery( function($) {
 			<th><?php echo $this->Paginator->sort('fulfiller_id');?></th>
 			<th><?php echo $this->Paginator->sort('school_id');?></th>
 			<th><?php echo $this->Paginator->sort('start');?></th>
-			<th><?php echo $this->Paginator->sort('end');?></th>
 	</tr>
 	<?php
 	$i = 0;
@@ -49,7 +58,6 @@ jQuery( function($) {
 		<td><?php echo $fulfiller_username; ?>&nbsp;</td>
 		<td><?php echo $school_name; ?>&nbsp;</td>
 		<td><?php echo $this->Time->nice($absence['Absence']['start']); ?>&nbsp;</td>
-		<td><?php echo $this->Time->nice($absence['Absence']['end']); ?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 	</table>
@@ -67,13 +75,38 @@ jQuery( function($) {
 		<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
 </div>
-<div class="actions">
-	<ul>
-		<li><?php if ($show_my_filter) echo $this->Html->link('Show Mine', array('filter' => 'my'), array ('id' => ($highlight_mine ? 'highlight' : ''))); ?></li>
-		<li><?php if ($show_available_filter) echo $this->Html->link('Show Available', array('filter' => 'available'), array ('id' => ($highlight_available ? 'highlight' : ''))); ?></li>
-		<li><?php if ($show_pending_filter) echo $this->Html->link('Show Pending', array('filter' => 'pending'), array ('id' => ($highlight_pending ? 'highlight' : ''))); ?></li>
-		<li><?php //echo $this->Html->link('Show Fulfilled', array('filter' => 'fulfilled'), array ('id' => ($highlight_fulfilled ? 'highlight' : ''))); ?></li>
-		<li><?php //echo $this->Html->link('Show Expired', array('filter' => 'expired'), array ('id' => ($highlight_expired ? 'highlight' : ''))); ?></li>
-		<li><?php echo $this->Html->link('Show All', array('filter' => 'all'), array ('id' => ($highlight_all ? 'highlight' : ''))); ?></li>
-	</ul>
+<div class="right-sidebar">
+	<h3>Notifications</h3>
+	<table>
+	<tr><th></th></tr>
+	<?php foreach ($notifications as $notification):?>
+		<tr data-href=<?php echo $this->Html->url(array('action' => 'view', $notification['Notification']['absence_id'])); ?>><td>
+			<?php
+			$fstring = $notification['NotificationType']['string'];
+			$fstring = str_replace(
+				array(
+					'%other_firstname%',
+					'%other_lastname%',
+					'%absence_start%',
+				),
+				array(
+					$notification['Other']['first_name'],
+					$notification['Other']['last_name'],
+					date('M j', strtotime($notification['Absence']['start'])),
+				),
+				$fstring
+			);
+			echo $fstring;
+			echo '<br />';
+			echo '<p class=timeago>';
+			echo $this->Time->relativeTime($notification['Notification']['created']);
+			echo '</p>';
+			?>
+		</td></tr>
+	<?php endforeach; ?>
+	</table>
+	<?php
+	if (!empty($notifications)) echo $this->Html->link('See older notifications', array('controller' => 'notifications', 'action' => 'index'));
+	else echo 'There doesn\'t seem to be anything here';
+	?>
 </div>

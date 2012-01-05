@@ -40,6 +40,16 @@ class User extends AppModel {
 			'foreignKey' => 'user_id',
 			'dependent' => false,
 		),
+		'Notification' => array(
+			'className' => 'Notification',
+			'foreignKey' => 'user_id',
+			'dependent' => false,
+		),
+		'NotificationReference' => array(
+			'className' => 'Notification',
+			'foreignKey' => 'other_id',
+			'dependent' => false,
+		),
 	);
 
 	var $hasAndBelongsToMany = array(

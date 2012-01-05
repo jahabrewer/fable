@@ -40,6 +40,11 @@ class Absence extends AppModel {
 			'foreignKey' => 'absence_id',
 			'dependent' => false,
 		),
+		'Notification' => array(
+			'className' => 'Notification',
+			'foreignKey' => 'absence_id',
+			'dependent' => false,
+		),
 	);
 
 	function isAbsenceInFuture($absence) {

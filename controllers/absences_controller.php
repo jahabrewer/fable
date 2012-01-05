@@ -102,9 +102,23 @@ class AbsencesController extends AppController {
 		// application
 		$use_alt_array = isset($filter) && ($filter == 'pending');
 
+		// retrieve notifications
+		$notifications = $this->Absence->Notification->find('all', array(
+			'conditions' => array(
+				'Notification.user_id' => $viewer_id,
+			),
+			'contain' => array(
+				'Absence.start',
+				'Other.first_name',
+				'Other.last_name',
+				'NotificationType.string',
+			),
+			'limit' => 5,
+		));
+
 		$this->Absence->recursive = 1;
 		$absences = $use_alt_array ? $this->paginate('Application') : $this->paginate();
-		$this->set(compact('absences', 'type', 'show_my_filter', 'show_pending_filter', 'show_available_filter', 'highlight_mine', 'highlight_available', 'highlight_fulfilled', 'highlight_expired', 'highlight_all', 'highlight_pending', 'show_add', 'use_alt_array'));
+		$this->set(compact('absences', 'notifications', 'type', 'show_my_filter', 'show_pending_filter', 'show_available_filter', 'highlight_mine', 'highlight_available', 'highlight_fulfilled', 'highlight_expired', 'highlight_all', 'highlight_pending', 'show_add', 'use_alt_array'));
 		$this->render('/absences/index');
 	}
 
@@ -210,13 +224,16 @@ class AbsencesController extends AppController {
 		}
 
 		// check for fulfiller_id match
-		$user = $this->Session->read('User');
+		$viewer_id = $this->viewVars['viewer_id'];
 		$this->data = $this->Absence->read(null, $id);
-		if ($this->Absence->isAbsenceFulfilledByUser($id, $user['User']['id'])) {
+		if ($this->Absence->isAbsenceFulfilledByUser($id, $viewer_id)) {
 			$this->data['Absence']['fulfiller_id'] = null;
 			if ($this->Absence->save($this->data)) {
 				$this->Session->setFlash(__('The absence has been released', true));
-				$this->_send_email_notification(array('message_type' => 'released'), $this->data['Absence']['id']);
+
+				// send notification
+				$absence = $this->Absence->read('absentee_id', $id);
+				$this->_create_notification('absence_released', $id, $absence['Absence']['absentee_id'], $viewer_id);
 			} else {
 				$this->Session->setFlash(__('The absence could not be released.', true));
 			}
@@ -276,24 +293,29 @@ class AbsencesController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 
-		$user = $this->Session->read('User');
+		$viewer_id = $this->viewVars['viewer_id'];
+		$viewer_is_substitute = $this->viewVars['viewer_is_substitute'];
 
 		// check for substitute status
-		if ($user['User']['user_type_id'] != 3) {
+		if (!$viewer_is_substitute) {
 			$this->Session->setFlash('You must be a substitute to apply for absences');
 			$this->redirect(array('action' => 'index'));
 		}
 
 		$data = array(
-			'user_id' => $user['User']['id'],
+			'user_id' => $viewer_id,
 			'absence_id' => $id,
 		);
 		if ($this->Absence->Application->save($data)) {
 			$this->Session->setFlash('Application successful');
+
+			// send notification
+			$absence = $this->Absence->read('absentee_id', $id);
+			$this->_create_notification('application_submitted', $id, $absence['Absence']['absentee_id'], $viewer_id);
 		} else {
 			$this->Session->setFlash('You have already applied for that absence');
 		}
-		$this->redirect(array('action' => 'index'));
+		$this->redirect(array('action' => 'view', $id));
 	}
 
 	function substitute_retract($id = null) {
@@ -318,10 +340,14 @@ class AbsencesController extends AppController {
 		);
 		if ($this->Absence->Application->deleteAll($conditions)) {
 			$this->Session->setFlash('Application retracted');
+
+			// send notification
+			$absence = $this->Absence->read('absentee_id', $id);
+			$this->_create_notification('application_retracted', $id, $absence['Absence']['absentee_id'], $viewer_id);
 		} else {
 			$this->Session->setFlash('Application was not retracted successfully');
 		}
-		$this->redirect(array('action' => 'index'));
+		$this->redirect(array('action' => 'view', $id));
 	}
 
 	function substitute_index($filter = null) {
@@ -399,41 +425,6 @@ class AbsencesController extends AppController {
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('Absence was not deleted', true));
-		$this->redirect(array('action' => 'index'));
-	}
-
-	function _send_email_notification($options, $absence_id) {
-		$this->Absence->recursive = 2;
-		if (empty($options) || !isset($options['message_type']) || empty($absence_id)) {
-			$this->Session->setFlash('Email notification not sent');
-		} else {
-			$absence = $this->Absence->read(array('start', 'absentee_id', 'fulfiller_id'), $absence_id);
-			if ($absence['Absentee']['absence_change_notify']) {
-				$date = $absence['Absence']['start'];
-				$absentee_email = $absence['Absentee']['email_address'];
-				/*$this->Email->smtpOptions = array(
-					'port' => '465',
-					'host' => 'ssl://smtp.gmail.com',
-					'username' => 'jahabrewer@gmail.com',
-					'password' => 
-				);
-				$this->Email->delivery = 'smtp';*/
-				$this->Email->delivery = 'debug';
-				$this->Email->from = 'Fable <noreply@example.com>';
-				$this->Email->to = $absentee_email;
-
-				switch ($options['message_type']) {
-				case 'taken':
-					$fulfiller_name = $absence['Fulfiller']['first_name'] . ' ' . $absence['Fulfiller']['last_name'];
-					$this->Email->subject = 'Absence Fulfilled';
-					$this->Email->send('Your absence beginning on ' . $date . ' was fulfilled by ' . $fulfiller_name . '.');
-					break;
-				case 'released':
-					$this->Email->subject = 'Absence Released';
-					$this->Email->send('Your absence beginning on ' . $date . ' was released.');
-				}
-			}
-		}
 		$this->redirect(array('action' => 'index'));
 	}
 }
