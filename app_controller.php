@@ -2,11 +2,13 @@
 class AppController extends Controller {
 
 	var $uses = array('User');
+	var $components = array('ComponentLoader');
 
 	/**
 	 * Callback
 	 */
 	function beforeFilter() {
+		$this->ComponentLoader->load('Session');
 		$user = $this->Session->read('User');
 
 		// require login for all pages
@@ -61,20 +63,62 @@ class AppController extends Controller {
 		$this->set(compact('viewer_id', 'viewer_is_admin', 'viewer_is_teacher', 'viewer_is_substitute', 'home_link_target'));
 	}
 
-	function _create_notification($notification_type, $absence_id, $user_id, $other_id) {
+	function _create_notification($notification_type_name, $absence_id, $user_id, $other_id) {
 		$this->loadModel('NotificationType');
 		$this->loadModel('Notification');
+		$this->loadModel('User');
 		// figure out which notification type this is
-		$notification_type_id = $this->NotificationType->find('first', array(
-			'conditions' => array('NotificationType.name' => $notification_type)
+		$notification_type = $this->NotificationType->find('first', array(
+			'conditions' => array('NotificationType.name' => $notification_type_name)
 		));
 		// record notification
 		$notification = array(
 			'user_id' => $user_id,
 			'absence_id' => $absence_id,
 			'other_id' => $other_id,
-			'notification_type_id' => $notification_type_id['NotificationType']['id'],
+			'notification_type_id' => $notification_type['NotificationType']['id'],
 		);
 		$this->Notification->save($notification);
+
+		// get user information for email
+		$user = $this->User->read('email_address', $user_id);
+		$notification = $this->Notification->find('first', array(
+			'conditions' => array('Notification.id' => $this->Notification->id),
+			'contain' => array('Other.first_name', 'Other.last_name', 'Absence.start'),
+		));
+		// send an email
+		$this->ComponentLoader->load('Email');
+		/*
+		$this->Email->smtpOptions = array(
+			'port' => '465',
+			'host' => 'ssl://smtp.gmail.com',
+			'username' => 'jahabrewer@gmail.com',
+			'password' =>
+		);
+		$this->Email->delivery = 'smtp';
+		*/
+		$this->Email->delivery = 'debug';
+		$this->Email->from = 'Fable <noreply@example.com>';
+		$this->Email->to = $user['User']['email_address'];
+		$this->Email->subject = 'hi!';
+		$body = str_replace(
+			array(
+				'%other_firstname%',
+				'%other_lastname%',
+				'%absence_start%',
+			),
+			array(
+				$notification['Other']['first_name'],
+				$notification['Other']['last_name'],
+				date('F j', strtotime($notification['Absence']['start'])),
+			),
+			$notification_type['NotificationType']['string']
+		);
+		$body .= "\nView the affected absence at:\n";
+		//TODO: it's pointless to link to the actual absence here
+		// until login remembers where users were intending to go
+		// instead of dumping them at absences index
+		$body .= Configure::read('BASEURL');
+		$this->Email->send($body);
 	}
 }

@@ -48,3 +48,6 @@
  * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  *
  */
+
+/* Define the base URL of the site for email notification links */
+	Configure::write('BASEURL', 'http://localhost');
