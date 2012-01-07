@@ -88,6 +88,7 @@ CREATE TABLE notifications (
 	user_id int unsigned,
 	absence_id int unsigned,
 	other_id int unsigned,
+	new tinyint(1) DEFAULT 1,
 	created datetime
 );
 

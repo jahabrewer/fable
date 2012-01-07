@@ -80,7 +80,7 @@ jQuery( function($) {
 	<table>
 	<tr><th></th></tr>
 	<?php foreach ($notifications as $notification):?>
-		<tr data-href=<?php echo $this->Html->url(array('action' => 'view', $notification['Notification']['absence_id'])); ?>><td>
+		<tr data-href=<?php echo $this->Html->url(array('action' => 'view', $notification['Notification']['absence_id'])); if ($notification['Notification']['new'] == 1) echo ' class="new-notification"'; ?>><td>
 			<?php
 			$fstring = $notification['NotificationType']['string'];
 			$fstring = str_replace(

@@ -116,6 +116,12 @@ class AbsencesController extends AppController {
 			'limit' => 5,
 		));
 
+		// mark viewer's notifications as not new
+		$this->Absence->Notification->updateAll(
+			array('Notification.new' => 0),
+			array('Notification.user_id' => $viewer_id)
+		);
+
 		$this->Absence->recursive = 1;
 		$absences = $use_alt_array ? $this->paginate('Application') : $this->paginate();
 		$this->set(compact('absences', 'notifications', 'type', 'show_my_filter', 'show_pending_filter', 'show_available_filter', 'highlight_mine', 'highlight_available', 'highlight_fulfilled', 'highlight_expired', 'highlight_all', 'highlight_pending', 'show_add', 'use_alt_array'));

@@ -605,6 +605,10 @@ tr.clickable:hover td {
 	background: #ffce40;
 	cursor: pointer;
 }
+tr.new-notification td {
+	background: #eef;
+	cursor: pointer;
+}
 .index h2 {
 	float: left;
 }
@@ -623,9 +627,9 @@ div.buttons {
 	min-width: 0;
 }
 #add {
-	background: #4e4;
-	background: -webkit-gradient(linear, left top, left bottom, from(#4e4), to(#4d4));
-	background-image: -moz-linear-gradient(top, #4e4, #4d4);
+	background: #7ed693;
+	background: -webkit-gradient(linear, left top, left bottom, from(#7ed693), to(#7ed693));
+	background-image: -moz-linear-gradient(top, #7ed693, #7ec693);
 }
 #add:hover {
 	color: #efe;
